@@ -1,3 +1,4 @@
+import threading
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
@@ -8,17 +9,39 @@ from app.config import CORS_ORIGINS
 from app.core.errors import AppError
 from app.core.graph_store import store
 from app.core.rdf import InvalidIdError
+from app.modules.ia.router import router as ia_router
 from app.modules.medicaments.router import router as medicaments_router
 from app.modules.nlp.router import router as nlp_router
 from app.modules.patients.router import router as patients_router
 from app.modules.prescriptions.router import router as prescriptions_router
 from app.modules.references.router import router as references_router
+from app.modules.sparql.ontology import router as ontology_router
+from app.modules.sparql.protege import router as protege_router
 from app.modules.sparql.router import router as sparql_router
+
+
+def warm_up() -> None:
+    """Précalcule en arrière-plan les requêtes les plus utilisées (analyse SPARQL et caches de résultats)
+    pour que le premier visiteur n'attende pas."""
+    from app.modules.ia.recommender import _all_vectors
+    from app.modules.medicaments.repository import list_medicaments
+    from app.modules.nlp.service import answer
+    from app.modules.patients.repository import list_patients
+    from app.modules.references.router import _stats, references
+    from app.modules.sparql.ontology import schema
+
+    for task in (references, _stats, schema, _all_vectors, list_medicaments, list_patients,
+                 lambda: answer("Quels médicaments traitent la migraine ?")):
+        try:
+            task()
+        except Exception:  # le préchauffage ne doit jamais empêcher le démarrage
+            pass
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     store.load()
+    threading.Thread(target=warm_up, daemon=True).start()
     yield
 
 
@@ -48,7 +71,7 @@ async def invalid_id_handler(_: Request, exc: InvalidIdError):
 
 
 for router in (medicaments_router, patients_router, prescriptions_router, references_router, nlp_router,
-               sparql_router):
+               ia_router, sparql_router, ontology_router, protege_router):
     app.include_router(router)
 
 

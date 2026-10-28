@@ -16,7 +16,7 @@ import spacy
 from rapidfuzz import fuzz, process
 from spacy.lang.fr.stop_words import STOP_WORDS
 
-from app.core.graph_store import store
+from app.core.graph_store import cached, store
 from app.core.rdf import local_id, to_python
 
 _nlp = spacy.blank("fr")
@@ -115,6 +115,7 @@ class GazetteerEntry:
     type: str
 
 
+@cached
 def build_gazetteer() -> dict[str, GazetteerEntry]:
     """Construit à partir du graphe (donc à jour après chaque CRUD) la table libellé normalisé → individu."""
     labels: dict[str, GazetteerEntry] = {}

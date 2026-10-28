@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 
-from rdflib import URIRef
+from rdflib import Literal, URIRef
 from rdflib.term import Node
 
 from app.core.errors import NotFoundError, ValidationError
@@ -70,10 +70,19 @@ def group_refs(rows: list[dict], subject_var: str = "s", key_var: str = "rel",
     return grouped
 
 
+def _label(uri: URIRef, triples: list[tuple]) -> tuple:
+    """rdfs:label déduit de nx:prenom / nx:nom (sinon l'identifiant) : Protégé affiche ainsi les individus par leur nom."""
+    from rdflib import RDFS
+
+    values = {p: o for s, p, o in triples if s == uri and p in (NX.prenom, NX.nom)}
+    text = " ".join(str(values[p]) for p in (NX.prenom, NX.nom) if p in values) or local_id(uri)
+    return (uri, RDFS.label, Literal(text, lang="fr"))
+
+
 def create_individual(uri: URIRef, cls: str, triples: list[tuple]) -> None:
     from rdflib import OWL, RDF
 
-    all_triples = [(uri, RDF.type, OWL.NamedIndividual), (uri, RDF.type, NX[cls]), *triples]
+    all_triples = [(uri, RDF.type, OWL.NamedIndividual), (uri, RDF.type, NX[cls]), *triples, _label(uri, triples)]
     store.update(insert_data(all_triples))
 
 
@@ -82,7 +91,12 @@ def replace_properties(uri: URIRef, predicates: list[URIRef], triples: list[tupl
     """Remplace en une seule mise à jour les valeurs des prédicats gérés par un formulaire.
 
     `incoming` : prédicats symétriques dont les triplets entrants (?x p <uri>) doivent aussi être retirés.
+    Le rdfs:label est recalculé à chaque modification.
     """
+    from rdflib import RDFS
+
+    predicates = [*predicates, RDFS.label]
+    triples = [*triples, _label(uri, triples)]
     parts = [
         f"DELETE {{ {uri.n3()} ?p ?o }} WHERE {{ {uri.n3()} ?p ?o . {values_block('p', predicates)} }}"
     ]

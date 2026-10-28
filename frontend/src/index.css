@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design system Nexora : classes réutilisées par le front-office et le back-office. */
+@layer base {
+  html { scroll-behavior: smooth; }
+  h1, h2, h3, h4 { @apply font-display tracking-tight text-ink-900; }
+  ::selection { @apply bg-brand-200 text-ink-900; }
+}
+
+@layer components {
+  /* Boutons */
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition
+         focus:outline-none focus-visible:ring-4 disabled:cursor-not-allowed disabled:opacity-60 whitespace-nowrap; }
+  .btn-sm { @apply px-3 py-1.5 text-xs rounded-lg; }
+  .btn-primary { @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-700 focus-visible:ring-brand-200; }
+  .btn-secondary { @apply btn border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300 focus-visible:ring-slate-100; }
+  .btn-ghost { @apply btn text-slate-600 hover:bg-slate-100 hover:text-slate-900; }
+  .btn-danger { @apply btn bg-rose-600 text-white hover:bg-rose-700 focus-visible:ring-rose-200; }
+  .btn-white { @apply btn bg-white text-brand-800 shadow-sm hover:bg-brand-50; }
+  .icon-btn { @apply inline-grid h-8 w-8 place-items-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-900; }
+
+  /* Surfaces */
+  .card { @apply rounded-2xl border border-slate-200/80 bg-white shadow-soft; }
+  .card-header { @apply flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4; }
+  .card-title { @apply flex items-center gap-2 text-[15px] font-semibold text-ink-900; }
+  .card-body { @apply p-5; }
+
+  /* Formulaires */
+  .label { @apply mb-1.5 block text-sm font-medium text-slate-700; }
+  .input { @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm transition
+           placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-100; }
+  .select { @apply input pr-8; }
+
+  /* Pastilles et badges */
+  .chip { @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset; }
+  .chip-brand { @apply bg-brand-50 text-brand-700 ring-brand-200; }
+  .chip-rose { @apply bg-rose-50 text-rose-700 ring-rose-200; }
+  .chip-amber { @apply bg-amber-50 text-amber-800 ring-amber-200; }
+  .chip-indigo { @apply bg-indigo-50 text-indigo-700 ring-indigo-200; }
+  .chip-slate { @apply bg-slate-50 text-slate-600 ring-slate-200; }
+  .chip-sky { @apply bg-sky-50 text-sky-700 ring-sky-200; }
+  .badge { @apply inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold; }
+
+  /* Tableaux */
+  .table-wrap { @apply overflow-x-auto; }
+  .table { @apply w-full text-left text-sm; }
+  .table thead th { @apply whitespace-nowrap border-b border-slate-100 bg-slate-50/70 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500; }
+  .table tbody td { @apply border-b border-slate-100 px-4 py-3.5 align-top; }
+  .table tbody tr:last-child td { @apply border-b-0; }
+  .table tbody tr { @apply transition-colors hover:bg-slate-50/60; }
+
+  /* Code */
+  .code { @apply overflow-x-auto rounded-xl bg-ink-900 p-4 font-mono text-[12.5px] leading-relaxed text-teal-50; }
+
+  /* Navigation back-office */
+  .side-link { @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/5 hover:text-white; }
+  .side-link.active { @apply bg-brand-500/15 text-white ring-1 ring-inset ring-brand-400/30; }
+  .side-link.active svg { @apply text-brand-300; }
+
+  /* Navigation front-office */
+  .nav-link { @apply rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:text-brand-700; }
+  .nav-link.active { @apply text-brand-700; }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
+}

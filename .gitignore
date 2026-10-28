@@ -14,3 +14,6 @@ frontend/dist/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Bibliothèques extraites de Protégé (régénérées automatiquement)
+tools/protege/.lib/

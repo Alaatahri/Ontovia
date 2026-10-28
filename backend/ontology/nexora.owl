@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xmlns:nx="http://www.nexora.org/ontologie/pharma#"
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-  xmlns:owl="http://www.w3.org/2002/07/owl#"
 >
+  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#prenom">
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Personne"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="fr">prénom</rdfs:label>
+  </owl:DatatypeProperty>
   <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Presc_004">
     <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
     <nx:posologie rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 comprimé matin et soir</nx:posologie>
@@ -20,6 +25,7 @@
         <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Angine"/>
         <nx:presenteCondition rdf:resource="http://www.nexora.org/ontologie/pharma#Cond_Allaitement"/>
         <nx:estAllergiqueA rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_Amoxicilline"/>
+        <rdfs:label xml:lang="fr">Ines Jaziri</rdfs:label>
       </owl:NamedIndividual>
     </nx:concernePatient>
     <nx:prescritePar>
@@ -28,6 +34,7 @@
         <nx:prenom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sami</nx:prenom>
         <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bouazizi</nx:nom>
         <nx:specialite rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Médecine générale</nx:specialite>
+        <rdfs:label xml:lang="fr">Sami Bouazizi</rdfs:label>
       </owl:NamedIndividual>
     </nx:prescritePar>
     <nx:prescritMedicament>
@@ -39,65 +46,10 @@
         <nx:fabriquePar rdf:resource="http://www.nexora.org/ontologie/pharma#Lab_GSK"/>
         <nx:contientMolecule rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_Amoxicilline"/>
         <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Angine"/>
+        <rdfs:label xml:lang="fr">Clamoxyl</rdfs:label>
       </owl:NamedIndividual>
     </nx:prescritMedicament>
-  </owl:NamedIndividual>
-  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#prescritePar">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
-    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Medecin"/>
-    <rdfs:label xml:lang="fr">est prescrite par</rdfs:label>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#estTraitePar">
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-    <rdfs:label xml:lang="fr">est traitée par</rdfs:label>
-    <owl:inverseOf>
-      <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#traite">
-        <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-        <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-        <rdfs:label xml:lang="fr">traite</rdfs:label>
-      </owl:ObjectProperty>
-    </owl:inverseOf>
-  </owl:ObjectProperty>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Presc_002">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
-    <nx:posologie rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 comprimé matin et soir</nx:posologie>
-    <nx:dureeJours rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">30</nx:dureeJours>
-    <nx:datePrescription rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-09-10</nx:datePrescription>
-    <nx:concernePatient>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Pat_SalmaTrabelsi">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
-        <nx:prenom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Salma</nx:prenom>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Trabelsi</nx:nom>
-        <nx:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">29</nx:age>
-        <nx:sexe rdf:datatype="http://www.w3.org/2001/XMLSchema#string">F</nx:sexe>
-        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Migraine"/>
-        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Asthme"/>
-        <nx:presenteCondition rdf:resource="http://www.nexora.org/ontologie/pharma#Cond_Grossesse"/>
-      </owl:NamedIndividual>
-    </nx:concernePatient>
-    <nx:prescritePar>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Doc_RimKhelifi">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medecin"/>
-        <nx:prenom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Rim</nx:prenom>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Khelifi</nx:nom>
-        <nx:specialite rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Neurologie</nx:specialite>
-      </owl:NamedIndividual>
-    </nx:prescritePar>
-    <nx:prescritMedicament>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Avlocardyl">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Avlocardyl</nx:nom>
-        <nx:dosage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">40 mg</nx:dosage>
-        <nx:formeGalenique rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Comprimé</nx:formeGalenique>
-        <nx:fabriquePar rdf:resource="http://www.nexora.org/ontologie/pharma#Lab_AstraZeneca"/>
-        <nx:contientMolecule rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_Propranolol"/>
-        <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Hypertension"/>
-        <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Migraine"/>
-        <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Asthme"/>
-      </owl:NamedIndividual>
-    </nx:prescritMedicament>
+    <rdfs:label xml:lang="fr">Presc_004</rdfs:label>
   </owl:NamedIndividual>
   <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Presc_001">
     <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
@@ -113,9 +65,18 @@
         <nx:sexe rdf:datatype="http://www.w3.org/2001/XMLSchema#string">M</nx:sexe>
         <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Migraine"/>
         <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Hypertension"/>
+        <rdfs:label xml:lang="fr">Ahmed Ben Ali</rdfs:label>
       </owl:NamedIndividual>
     </nx:concernePatient>
-    <nx:prescritePar rdf:resource="http://www.nexora.org/ontologie/pharma#Doc_RimKhelifi"/>
+    <nx:prescritePar>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Doc_RimKhelifi">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medecin"/>
+        <nx:prenom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Rim</nx:prenom>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Khelifi</nx:nom>
+        <nx:specialite rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Neurologie</nx:specialite>
+        <rdfs:label xml:lang="fr">Rim Khelifi</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:prescritePar>
     <nx:prescritMedicament>
       <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Imigrane">
         <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
@@ -126,156 +87,22 @@
         <nx:contientMolecule rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_Sumatriptan"/>
         <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Migraine"/>
         <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Hypertension"/>
+        <rdfs:label xml:lang="fr">Imigrane</rdfs:label>
       </owl:NamedIndividual>
     </nx:prescritMedicament>
+    <rdfs:label xml:lang="fr">Presc_001</rdfs:label>
   </owl:NamedIndividual>
-  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#fabriquePar">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
-    <rdfs:label xml:lang="fr">est fabriqué par</rdfs:label>
-  </owl:ObjectProperty>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Presc_007">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
-    <nx:posologie rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 gélule le matin à jeun</nx:posologie>
-    <nx:dureeJours rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">28</nx:dureeJours>
-    <nx:datePrescription rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-10-12</nx:datePrescription>
-    <nx:concernePatient>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Pat_LeilaMansour">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
-        <nx:prenom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Leila</nx:prenom>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mansour</nx:nom>
-        <nx:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">52</nx:age>
-        <nx:sexe rdf:datatype="http://www.w3.org/2001/XMLSchema#string">F</nx:sexe>
-        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_RGO"/>
-        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Hypercholesterolemie"/>
-        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceHepatique"/>
-      </owl:NamedIndividual>
-    </nx:concernePatient>
-    <nx:prescritePar rdf:resource="http://www.nexora.org/ontologie/pharma#Doc_SamiBouazizi"/>
-    <nx:prescritMedicament>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Mopral">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mopral</nx:nom>
-        <nx:dosage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">20 mg</nx:dosage>
-        <nx:formeGalenique rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Gélule gastro-résistante</nx:formeGalenique>
-        <nx:fabriquePar rdf:resource="http://www.nexora.org/ontologie/pharma#Lab_AstraZeneca"/>
-        <nx:contientMolecule rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_Omeprazole"/>
-        <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_UlcereGastrique"/>
-        <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_RGO"/>
-      </owl:NamedIndividual>
-    </nx:prescritMedicament>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Augmentin">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Augmentin</nx:nom>
-    <nx:dosage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 g / 125 mg</nx:dosage>
-    <nx:formeGalenique rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sachet</nx:formeGalenique>
-    <nx:fabriquePar>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_GSK">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GSK</nx:nom>
-      </owl:NamedIndividual>
-    </nx:fabriquePar>
-    <nx:contientMolecule>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Amoxicilline">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Amoxicilline</nx:nom>
-      </owl:NamedIndividual>
-    </nx:contientMolecule>
-    <nx:contientMolecule>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_AcideClavulanique">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Acide clavulanique</nx:nom>
-      </owl:NamedIndividual>
-    </nx:contientMolecule>
-    <nx:traite>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Angine">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Angine bactérienne</nx:nom>
-        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Infection bactérienne des amygdales.</nx:description>
-      </owl:NamedIndividual>
-    </nx:traite>
-    <nx:aContreIndication>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceHepatique">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Insuffisance hépatique</nx:nom>
-        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Diminution de la fonction du foie.</nx:description>
-      </owl:NamedIndividual>
-    </nx:aContreIndication>
-  </owl:NamedIndividual>
-  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#datePrescription">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#prescritMedicament">
     <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
-    <rdfs:label xml:lang="fr">date de prescription</rdfs:label>
-  </owl:DatatypeProperty>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Zocor">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zocor</nx:nom>
-    <nx:dosage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">20 mg</nx:dosage>
-    <nx:formeGalenique rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Comprimé</nx:formeGalenique>
-    <nx:fabriquePar>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_MSD">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MSD</nx:nom>
-      </owl:NamedIndividual>
-    </nx:fabriquePar>
-    <nx:contientMolecule>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Simvastatine">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Simvastatine</nx:nom>
-      </owl:NamedIndividual>
-    </nx:contientMolecule>
-    <nx:traite>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Hypercholesterolemie">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hypercholestérolémie</nx:nom>
-        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Taux de cholestérol sanguin élevé.</nx:description>
-      </owl:NamedIndividual>
-    </nx:traite>
-    <nx:aContreIndication>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Cond_Grossesse">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Grossesse</nx:nom>
-        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patiente enceinte.</nx:description>
-      </owl:NamedIndividual>
-    </nx:aContreIndication>
-    <nx:aContreIndication>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Cond_Allaitement">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Allaitement</nx:nom>
-        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patiente allaitante.</nx:description>
-      </owl:NamedIndividual>
-    </nx:aContreIndication>
-    <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceHepatique"/>
-  </owl:NamedIndividual>
-  <owl:Ontology rdf:about="http://www.nexora.org/ontologie/pharma">
-    <rdfs:label xml:lang="fr">Nexora — Ontologie Pharmaceutique et Santé</rdfs:label>
-    <rdfs:comment xml:lang="fr">Ontologie de gestion des médicaments, des patients et des prescriptions.</rdfs:comment>
-  </owl:Ontology>
-  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#age">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
-    <rdfs:label xml:lang="fr">âge</rdfs:label>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#prenom">
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Personne"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label xml:lang="fr">prénom</rdfs:label>
-  </owl:DatatypeProperty>
-  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#interagitAvec">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
     <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-    <rdfs:label xml:lang="fr">interagit avec</rdfs:label>
+    <rdfs:label xml:lang="fr">prescrit le médicament</rdfs:label>
   </owl:ObjectProperty>
-  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#posologie">
+  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#prescritePar">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
     <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label xml:lang="fr">posologie</rdfs:label>
-  </owl:DatatypeProperty>
+    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Medecin"/>
+    <rdfs:label xml:lang="fr">est prescrite par</rdfs:label>
+  </owl:ObjectProperty>
   <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Presc_005">
     <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
     <nx:posologie rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Coumadine selon INR ; Aspirine 1 comprimé par jour</nx:posologie>
@@ -292,6 +119,7 @@
         <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_UlcereGastrique"/>
         <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Hypercholesterolemie"/>
         <nx:presenteCondition rdf:resource="http://www.nexora.org/ontologie/pharma#Cond_SujetAge"/>
+        <rdfs:label xml:lang="fr">Youssef Hammami</rdfs:label>
       </owl:NamedIndividual>
     </nx:concernePatient>
     <nx:prescritePar>
@@ -300,6 +128,7 @@
         <nx:prenom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hichem</nx:prenom>
         <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saidi</nx:nom>
         <nx:specialite rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Cardiologie</nx:specialite>
+        <rdfs:label xml:lang="fr">Hichem Saidi</rdfs:label>
       </owl:NamedIndividual>
     </nx:prescritePar>
     <nx:prescritMedicament>
@@ -313,6 +142,7 @@
         <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_FibrillationAuriculaire"/>
         <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Cond_Grossesse"/>
         <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_UlcereGastrique"/>
+        <rdfs:label xml:lang="fr">Coumadine</rdfs:label>
       </owl:NamedIndividual>
     </nx:prescritMedicament>
     <nx:prescritMedicament>
@@ -330,65 +160,183 @@
         <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Asthme"/>
         <nx:interagitAvec rdf:resource="http://www.nexora.org/ontologie/pharma#Med_Coumadine"/>
         <nx:interagitAvec rdf:resource="http://www.nexora.org/ontologie/pharma#Med_Advil"/>
+        <rdfs:label xml:lang="fr">Aspirine</rdfs:label>
       </owl:NamedIndividual>
     </nx:prescritMedicament>
+    <rdfs:label xml:lang="fr">Presc_005</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Zocor">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zocor</nx:nom>
+    <nx:dosage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">20 mg</nx:dosage>
+    <nx:formeGalenique rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Comprimé</nx:formeGalenique>
+    <nx:fabriquePar>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_MSD">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MSD</nx:nom>
+        <rdfs:label xml:lang="fr">MSD</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:fabriquePar>
+    <nx:contientMolecule>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Simvastatine">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Simvastatine</nx:nom>
+        <rdfs:label xml:lang="fr">Simvastatine</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:contientMolecule>
+    <nx:traite>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Hypercholesterolemie">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hypercholestérolémie</nx:nom>
+        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Taux de cholestérol sanguin élevé.</nx:description>
+        <rdfs:label xml:lang="fr">Hypercholestérolémie</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:traite>
+    <nx:aContreIndication>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Cond_Grossesse">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Grossesse</nx:nom>
+        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patiente enceinte.</nx:description>
+        <rdfs:label xml:lang="fr">Grossesse</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:aContreIndication>
+    <nx:aContreIndication>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Cond_Allaitement">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Allaitement</nx:nom>
+        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patiente allaitante.</nx:description>
+        <rdfs:label xml:lang="fr">Allaitement</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:aContreIndication>
+    <nx:aContreIndication>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceHepatique">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Insuffisance hépatique</nx:nom>
+        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Diminution de la fonction du foie.</nx:description>
+        <rdfs:label xml:lang="fr">Insuffisance hépatique</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:aContreIndication>
+    <rdfs:label xml:lang="fr">Zocor</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#nom">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="fr">nom</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#datePrescription">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:label xml:lang="fr">date de prescription</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#formeGalenique">
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="fr">forme galénique</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#estAllergiqueA">
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
+    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+    <rdfs:label xml:lang="fr">est allergique à</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Presc_002">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
+    <nx:posologie rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 comprimé matin et soir</nx:posologie>
+    <nx:dureeJours rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">30</nx:dureeJours>
+    <nx:datePrescription rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-09-10</nx:datePrescription>
+    <nx:concernePatient>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Pat_SalmaTrabelsi">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
+        <nx:prenom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Salma</nx:prenom>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Trabelsi</nx:nom>
+        <nx:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">29</nx:age>
+        <nx:sexe rdf:datatype="http://www.w3.org/2001/XMLSchema#string">F</nx:sexe>
+        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Migraine"/>
+        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Asthme"/>
+        <nx:presenteCondition rdf:resource="http://www.nexora.org/ontologie/pharma#Cond_Grossesse"/>
+        <rdfs:label xml:lang="fr">Salma Trabelsi</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:concernePatient>
+    <nx:prescritePar rdf:resource="http://www.nexora.org/ontologie/pharma#Doc_RimKhelifi"/>
+    <nx:prescritMedicament>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Avlocardyl">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Avlocardyl</nx:nom>
+        <nx:dosage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">40 mg</nx:dosage>
+        <nx:formeGalenique rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Comprimé</nx:formeGalenique>
+        <nx:fabriquePar rdf:resource="http://www.nexora.org/ontologie/pharma#Lab_AstraZeneca"/>
+        <nx:contientMolecule rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_Propranolol"/>
+        <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Hypertension"/>
+        <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Migraine"/>
+        <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Asthme"/>
+        <rdfs:label xml:lang="fr">Avlocardyl</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:prescritMedicament>
+    <rdfs:label xml:lang="fr">Presc_002</rdfs:label>
   </owl:NamedIndividual>
   <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#dosage">
     <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:label xml:lang="fr">dosage</rdfs:label>
   </owl:DatatypeProperty>
-  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#concernePatient">
+  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#fabriquePar">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
-    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
-    <rdfs:label xml:lang="fr">concerne le patient</rdfs:label>
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
+    <rdfs:label xml:lang="fr">est fabriqué par</rdfs:label>
   </owl:ObjectProperty>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Presc_003">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
-    <nx:posologie rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Glucophage : 1 comprimé aux repas ; Zestril : 1 comprimé le matin</nx:posologie>
-    <nx:dureeJours rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">90</nx:dureeJours>
-    <nx:datePrescription rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-09-15</nx:datePrescription>
-    <nx:concernePatient>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Pat_MohamedGharbi">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
-        <nx:prenom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mohamed</nx:prenom>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Gharbi</nx:nom>
-        <nx:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">67</nx:age>
-        <nx:sexe rdf:datatype="http://www.w3.org/2001/XMLSchema#string">M</nx:sexe>
-        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Diabete2"/>
-        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceRenale"/>
-        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Hypertension"/>
+  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#specialite">
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medecin"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="fr">spécialité</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#estTraitePar">
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
+    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+    <rdfs:label xml:lang="fr">est traitée par</rdfs:label>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#traite">
+        <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+        <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
+        <rdfs:label xml:lang="fr">traite</rdfs:label>
+      </owl:ObjectProperty>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Augmentin">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Augmentin</nx:nom>
+    <nx:dosage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 g / 125 mg</nx:dosage>
+    <nx:formeGalenique rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sachet</nx:formeGalenique>
+    <nx:fabriquePar>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_GSK">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GSK</nx:nom>
+        <rdfs:label xml:lang="fr">GSK</rdfs:label>
       </owl:NamedIndividual>
-    </nx:concernePatient>
-    <nx:prescritePar rdf:resource="http://www.nexora.org/ontologie/pharma#Doc_SamiBouazizi"/>
-    <nx:prescritMedicament>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Glucophage">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Glucophage</nx:nom>
-        <nx:dosage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">850 mg</nx:dosage>
-        <nx:formeGalenique rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Comprimé</nx:formeGalenique>
-        <nx:fabriquePar rdf:resource="http://www.nexora.org/ontologie/pharma#Lab_Merck"/>
-        <nx:contientMolecule rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_Metformine"/>
-        <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Diabete2"/>
-        <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceRenale"/>
-        <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceHepatique"/>
-        <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Cond_Alcoolisme"/>
+    </nx:fabriquePar>
+    <nx:contientMolecule>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Amoxicilline">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Amoxicilline</nx:nom>
+        <rdfs:label xml:lang="fr">Amoxicilline</rdfs:label>
       </owl:NamedIndividual>
-    </nx:prescritMedicament>
-    <nx:prescritMedicament>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Zestril">
-        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zestril</nx:nom>
-        <nx:dosage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10 mg</nx:dosage>
-        <nx:formeGalenique rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Comprimé</nx:formeGalenique>
-        <nx:fabriquePar rdf:resource="http://www.nexora.org/ontologie/pharma#Lab_AstraZeneca"/>
-        <nx:contientMolecule rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_Lisinopril"/>
-        <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Hypertension"/>
-        <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Cond_Grossesse"/>
-        <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Cond_Allaitement"/>
+    </nx:contientMolecule>
+    <nx:contientMolecule>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_AcideClavulanique">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Acide clavulanique</nx:nom>
+        <rdfs:label xml:lang="fr">Acide clavulanique</rdfs:label>
       </owl:NamedIndividual>
-    </nx:prescritMedicament>
+    </nx:contientMolecule>
+    <nx:traite>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Angine">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Angine bactérienne</nx:nom>
+        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Infection bactérienne des amygdales.</nx:description>
+        <rdfs:label xml:lang="fr">Angine bactérienne</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:traite>
+    <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceHepatique"/>
+    <rdfs:label xml:lang="fr">Augmentin</rdfs:label>
   </owl:NamedIndividual>
   <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Presc_006">
     <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
@@ -405,6 +353,7 @@
         <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Asthme"/>
         <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Grippe"/>
         <nx:estAllergiqueA rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_AcideAcetylsalicylique"/>
+        <rdfs:label xml:lang="fr">Karim Jebali</rdfs:label>
       </owl:NamedIndividual>
     </nx:concernePatient>
     <nx:prescritePar>
@@ -413,6 +362,7 @@
         <nx:prenom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Amel</nx:prenom>
         <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ferchichi</nx:nom>
         <nx:specialite rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pneumologie</nx:specialite>
+        <rdfs:label xml:lang="fr">Amel Ferchichi</rdfs:label>
       </owl:NamedIndividual>
     </nx:prescritePar>
     <nx:prescritMedicament>
@@ -424,6 +374,7 @@
         <nx:fabriquePar rdf:resource="http://www.nexora.org/ontologie/pharma#Lab_GSK"/>
         <nx:contientMolecule rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_Salbutamol"/>
         <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Asthme"/>
+        <rdfs:label xml:lang="fr">Ventoline</rdfs:label>
       </owl:NamedIndividual>
     </nx:prescritMedicament>
     <nx:prescritMedicament>
@@ -438,32 +389,71 @@
         <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Fievre"/>
         <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Grippe"/>
         <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceHepatique"/>
+        <rdfs:label xml:lang="fr">Doliprane</rdfs:label>
       </owl:NamedIndividual>
     </nx:prescritMedicament>
+    <rdfs:label xml:lang="fr">Presc_006</rdfs:label>
   </owl:NamedIndividual>
-  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#aContreIndication">
+  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#contientMolecule">
     <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Condition"/>
-    <rdfs:label xml:lang="fr">a pour contre-indication</rdfs:label>
+    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+    <rdfs:label xml:lang="fr">contient la molécule</rdfs:label>
   </owl:ObjectProperty>
-  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#formeGalenique">
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#posologie">
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label xml:lang="fr">forme galénique</rdfs:label>
+    <rdfs:label xml:lang="fr">posologie</rdfs:label>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#nom">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label xml:lang="fr">nom</rdfs:label>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Presc_007">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
+    <nx:posologie rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1 gélule le matin à jeun</nx:posologie>
+    <nx:dureeJours rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">28</nx:dureeJours>
+    <nx:datePrescription rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-10-12</nx:datePrescription>
+    <nx:concernePatient>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Pat_LeilaMansour">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
+        <nx:prenom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Leila</nx:prenom>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mansour</nx:nom>
+        <nx:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">52</nx:age>
+        <nx:sexe rdf:datatype="http://www.w3.org/2001/XMLSchema#string">F</nx:sexe>
+        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_RGO"/>
+        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Hypercholesterolemie"/>
+        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceHepatique"/>
+        <rdfs:label xml:lang="fr">Leila Mansour</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:concernePatient>
+    <nx:prescritePar rdf:resource="http://www.nexora.org/ontologie/pharma#Doc_SamiBouazizi"/>
+    <nx:prescritMedicament>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Mopral">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mopral</nx:nom>
+        <nx:dosage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">20 mg</nx:dosage>
+        <nx:formeGalenique rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Gélule gastro-résistante</nx:formeGalenique>
+        <nx:fabriquePar rdf:resource="http://www.nexora.org/ontologie/pharma#Lab_AstraZeneca"/>
+        <nx:contientMolecule rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_Omeprazole"/>
+        <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_UlcereGastrique"/>
+        <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_RGO"/>
+        <rdfs:label xml:lang="fr">Mopral</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:prescritMedicament>
+    <rdfs:label xml:lang="fr">Presc_007</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#age">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="fr">âge</rdfs:label>
   </owl:DatatypeProperty>
   <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#souffreDe">
     <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
     <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
     <rdfs:label xml:lang="fr">souffre de</rdfs:label>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#estAllergiqueA">
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
-    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-    <rdfs:label xml:lang="fr">est allergique à</rdfs:label>
+  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#interagitAvec">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+    <rdfs:label xml:lang="fr">interagit avec</rdfs:label>
   </owl:ObjectProperty>
   <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#sexe">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
@@ -471,6 +461,76 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:label xml:lang="fr">sexe</rdfs:label>
   </owl:DatatypeProperty>
+  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#aContreIndication">
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Condition"/>
+    <rdfs:label xml:lang="fr">a pour contre-indication</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#concernePatient">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
+    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
+    <rdfs:label xml:lang="fr">concerne le patient</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:Ontology rdf:about="http://www.nexora.org/ontologie/pharma">
+    <rdfs:label xml:lang="fr">Nexora — Ontologie Pharmaceutique et Santé</rdfs:label>
+    <rdfs:comment xml:lang="fr">Ontologie de gestion des médicaments, des patients et des prescriptions.</rdfs:comment>
+  </owl:Ontology>
+  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#presenteCondition">
+    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
+    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique"/>
+    <rdfs:label xml:lang="fr">présente la condition</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Presc_003">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
+    <nx:posologie rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Glucophage : 1 comprimé aux repas ; Zestril : 1 comprimé le matin</nx:posologie>
+    <nx:dureeJours rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">90</nx:dureeJours>
+    <nx:datePrescription rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-09-15</nx:datePrescription>
+    <nx:concernePatient>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Pat_MohamedGharbi">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
+        <nx:prenom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mohamed</nx:prenom>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Gharbi</nx:nom>
+        <nx:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">67</nx:age>
+        <nx:sexe rdf:datatype="http://www.w3.org/2001/XMLSchema#string">M</nx:sexe>
+        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Diabete2"/>
+        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceRenale"/>
+        <nx:souffreDe rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Hypertension"/>
+        <rdfs:label xml:lang="fr">Mohamed Gharbi</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:concernePatient>
+    <nx:prescritePar rdf:resource="http://www.nexora.org/ontologie/pharma#Doc_SamiBouazizi"/>
+    <nx:prescritMedicament>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Glucophage">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Glucophage</nx:nom>
+        <nx:dosage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">850 mg</nx:dosage>
+        <nx:formeGalenique rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Comprimé</nx:formeGalenique>
+        <nx:fabriquePar rdf:resource="http://www.nexora.org/ontologie/pharma#Lab_Merck"/>
+        <nx:contientMolecule rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_Metformine"/>
+        <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Diabete2"/>
+        <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceRenale"/>
+        <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceHepatique"/>
+        <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Cond_Alcoolisme"/>
+        <rdfs:label xml:lang="fr">Glucophage</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:prescritMedicament>
+    <nx:prescritMedicament>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Zestril">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zestril</nx:nom>
+        <nx:dosage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10 mg</nx:dosage>
+        <nx:formeGalenique rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Comprimé</nx:formeGalenique>
+        <nx:fabriquePar rdf:resource="http://www.nexora.org/ontologie/pharma#Lab_AstraZeneca"/>
+        <nx:contientMolecule rdf:resource="http://www.nexora.org/ontologie/pharma#Mol_Lisinopril"/>
+        <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Hypertension"/>
+        <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Cond_Grossesse"/>
+        <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Cond_Allaitement"/>
+        <rdfs:label xml:lang="fr">Zestril</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:prescritMedicament>
+    <rdfs:label xml:lang="fr">Presc_003</rdfs:label>
+  </owl:NamedIndividual>
   <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#dureeJours">
     <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
@@ -480,73 +540,23 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:label xml:lang="fr">description</rdfs:label>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:about="http://www.nexora.org/ontologie/pharma#specialite">
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medecin"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label xml:lang="fr">spécialité</rdfs:label>
-  </owl:DatatypeProperty>
-  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#contientMolecule">
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-    <rdfs:label xml:lang="fr">contient la molécule</rdfs:label>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#prescritMedicament">
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
-    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
-    <rdfs:label xml:lang="fr">prescrit le médicament</rdfs:label>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="http://www.nexora.org/ontologie/pharma#presenteCondition">
-    <rdfs:domain rdf:resource="http://www.nexora.org/ontologie/pharma#Patient"/>
-    <rdfs:range rdf:resource="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique"/>
-    <rdfs:label xml:lang="fr">présente la condition</rdfs:label>
-  </owl:ObjectProperty>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_UlcereGastrique">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ulcère gastrique</nx:nom>
-    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lésion de la muqueuse de l'estomac.</nx:description>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Fievre">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fièvre</nx:nom>
-    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Élévation de la température corporelle.</nx:description>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Asthme">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Asthme</nx:nom>
-    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maladie inflammatoire chronique des voies respiratoires.</nx:description>
-  </owl:NamedIndividual>
-  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Maladie">
-    <rdfs:label xml:lang="fr">Maladie</rdfs:label>
-    <rdfs:subClassOf rdf:resource="http://www.nexora.org/ontologie/pharma#Condition"/>
-    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique"/>
+  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Patient">
+    <rdfs:label xml:lang="fr">Patient</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.nexora.org/ontologie/pharma#Personne"/>
+    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Medecin"/>
   </owl:Class>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Migraine">
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceRenale">
     <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Migraine</nx:nom>
-    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Céphalée primaire récurrente, souvent pulsatile.</nx:description>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Salbutamol">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Salbutamol</nx:nom>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Insuffisance rénale</nx:nom>
+    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Diminution de la fonction des reins.</nx:description>
+    <rdfs:label xml:lang="fr">Insuffisance rénale</rdfs:label>
   </owl:NamedIndividual>
   <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Diabete2">
     <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
     <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Diabète de type 2</nx:nom>
     <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Trouble chronique de la régulation de la glycémie.</nx:description>
+    <rdfs:label xml:lang="fr">Diabète de type 2</rdfs:label>
   </owl:NamedIndividual>
-  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Condition">
-    <rdfs:label xml:lang="fr">Condition médicale</rdfs:label>
-    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
-  </owl:Class>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_AcideAcetylsalicylique">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Acide acétylsalicylique</nx:nom>
-  </owl:NamedIndividual>
-  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Laboratoire">
-    <rdfs:label xml:lang="fr">Laboratoire pharmaceutique</rdfs:label>
-    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Condition"/>
-    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
-  </owl:Class>
   <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Med_Advil">
     <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
     <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Advil</nx:nom>
@@ -556,29 +566,69 @@
       <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_Pfizer">
         <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
         <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pfizer</nx:nom>
+        <rdfs:label xml:lang="fr">Pfizer</rdfs:label>
       </owl:NamedIndividual>
     </nx:fabriquePar>
     <nx:contientMolecule>
       <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Ibuprofene">
         <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
         <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ibuprofène</nx:nom>
+        <rdfs:label xml:lang="fr">Ibuprofène</rdfs:label>
       </owl:NamedIndividual>
     </nx:contientMolecule>
-    <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Migraine"/>
-    <nx:traite rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_Fievre"/>
-    <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_UlcereGastrique"/>
-    <nx:aContreIndication>
-      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceRenale">
+    <nx:traite>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Migraine">
         <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Insuffisance rénale</nx:nom>
-        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Diminution de la fonction des reins.</nx:description>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Migraine</nx:nom>
+        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Céphalée primaire récurrente, souvent pulsatile.</nx:description>
+        <rdfs:label xml:lang="fr">Migraine</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:traite>
+    <nx:traite>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Fievre">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fièvre</nx:nom>
+        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Élévation de la température corporelle.</nx:description>
+        <rdfs:label xml:lang="fr">Fièvre</rdfs:label>
+      </owl:NamedIndividual>
+    </nx:traite>
+    <nx:aContreIndication>
+      <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_UlcereGastrique">
+        <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
+        <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ulcère gastrique</nx:nom>
+        <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lésion de la muqueuse de l'estomac.</nx:description>
+        <rdfs:label xml:lang="fr">Ulcère gastrique</rdfs:label>
       </owl:NamedIndividual>
     </nx:aContreIndication>
+    <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceRenale"/>
     <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Mal_InsuffisanceHepatique"/>
     <nx:aContreIndication rdf:resource="http://www.nexora.org/ontologie/pharma#Cond_Grossesse"/>
     <nx:interagitAvec rdf:resource="http://www.nexora.org/ontologie/pharma#Med_Coumadine"/>
     <nx:interagitAvec rdf:resource="http://www.nexora.org/ontologie/pharma#Med_Zestril"/>
+    <rdfs:label xml:lang="fr">Advil</rdfs:label>
   </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Cond_SujetAge">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sujet âgé</nx:nom>
+    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patient de plus de 70 ans.</nx:description>
+    <rdfs:label xml:lang="fr">Sujet âgé</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_RGO">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reflux gastro-œsophagien</nx:nom>
+    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Remontée du contenu gastrique dans l'œsophage.</nx:description>
+    <rdfs:label xml:lang="fr">Reflux gastro-œsophagien</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Molecule">
+    <rdfs:label xml:lang="fr">Molécule (principe actif)</rdfs:label>
+    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
+    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Condition"/>
+    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Medecin">
+    <rdfs:label xml:lang="fr">Médecin</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.nexora.org/ontologie/pharma#Personne"/>
+  </owl:Class>
   <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Personne">
     <rdfs:label xml:lang="fr">Personne</rdfs:label>
     <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Medicament"/>
@@ -587,6 +637,38 @@
     <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Condition"/>
     <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
   </owl:Class>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Metformine">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Metformine</nx:nom>
+    <rdfs:label xml:lang="fr">Metformine</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_AstraZeneca">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AstraZeneca</nx:nom>
+    <rdfs:label xml:lang="fr">AstraZeneca</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Cond_Alcoolisme">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Alcoolisme chronique</nx:nom>
+    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Consommation chronique d'alcool.</nx:description>
+    <rdfs:label xml:lang="fr">Alcoolisme chronique</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Sumatriptan">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sumatriptan</nx:nom>
+    <rdfs:label xml:lang="fr">Sumatriptan</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Grippe">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Grippe</nx:nom>
+    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Infection virale respiratoire aiguë.</nx:description>
+    <rdfs:label xml:lang="fr">Grippe</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Warfarine">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Warfarine</nx:nom>
+    <rdfs:label xml:lang="fr">Warfarine</rdfs:label>
+  </owl:NamedIndividual>
   <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Medicament">
     <rdfs:label xml:lang="fr">Médicament</rdfs:label>
     <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
@@ -594,104 +676,93 @@
     <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Condition"/>
     <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
   </owl:Class>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_BMS">
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Propranolol">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Propranolol</nx:nom>
+    <rdfs:label xml:lang="fr">Propranolol</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Condition">
+    <rdfs:label xml:lang="fr">Condition médicale</rdfs:label>
+    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
+  </owl:Class>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Paracetamol">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Paracétamol</nx:nom>
+    <rdfs:label xml:lang="fr">Paracétamol</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Hypertension">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hypertension artérielle</nx:nom>
+    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pression artérielle durablement élevée.</nx:description>
+    <rdfs:label xml:lang="fr">Hypertension artérielle</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Lisinopril">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lisinopril</nx:nom>
+    <rdfs:label xml:lang="fr">Lisinopril</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Omeprazole">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Oméprazole</nx:nom>
+    <rdfs:label xml:lang="fr">Oméprazole</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_Merck">
     <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bristol-Myers Squibb</nx:nom>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Merck</nx:nom>
+    <rdfs:label xml:lang="fr">Merck</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_Sanofi">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sanofi</nx:nom>
+    <rdfs:label xml:lang="fr">Sanofi</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Prescription">
+    <rdfs:label xml:lang="fr">Prescription</rdfs:label>
+  </owl:Class>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_Bayer">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bayer</nx:nom>
+    <rdfs:label xml:lang="fr">Bayer</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Laboratoire">
+    <rdfs:label xml:lang="fr">Laboratoire pharmaceutique</rdfs:label>
+    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Condition"/>
+    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
+  </owl:Class>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_FibrillationAuriculaire">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fibrillation auriculaire</nx:nom>
+    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Trouble du rythme cardiaque.</nx:description>
+    <rdfs:label xml:lang="fr">Fibrillation auriculaire</rdfs:label>
+  </owl:NamedIndividual>
+  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Maladie">
+    <rdfs:label xml:lang="fr">Maladie</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.nexora.org/ontologie/pharma#Condition"/>
+    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique"/>
+  </owl:Class>
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Salbutamol">
+    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Salbutamol</nx:nom>
+    <rdfs:label xml:lang="fr">Salbutamol</rdfs:label>
   </owl:NamedIndividual>
   <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique">
     <rdfs:label xml:lang="fr">Condition physiologique (grossesse, allaitement…)</rdfs:label>
     <rdfs:subClassOf rdf:resource="http://www.nexora.org/ontologie/pharma#Condition"/>
   </owl:Class>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Paracetamol">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Paracétamol</nx:nom>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_Merck">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Merck</nx:nom>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Cond_SujetAge">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sujet âgé</nx:nom>
-    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patient de plus de 70 ans.</nx:description>
-  </owl:NamedIndividual>
-  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Prescription">
-    <rdfs:label xml:lang="fr">Prescription</rdfs:label>
-  </owl:Class>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_Sanofi">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sanofi</nx:nom>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_Bayer">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bayer</nx:nom>
-  </owl:NamedIndividual>
-  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Patient">
-    <rdfs:label xml:lang="fr">Patient</rdfs:label>
-    <rdfs:subClassOf rdf:resource="http://www.nexora.org/ontologie/pharma#Personne"/>
-    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Medecin"/>
-  </owl:Class>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_RGO">
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Asthme">
     <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reflux gastro-œsophagien</nx:nom>
-    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Remontée du contenu gastrique dans l'œsophage.</nx:description>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Asthme</nx:nom>
+    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maladie inflammatoire chronique des voies respiratoires.</nx:description>
+    <rdfs:label xml:lang="fr">Asthme</rdfs:label>
   </owl:NamedIndividual>
-  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Medecin">
-    <rdfs:label xml:lang="fr">Médecin</rdfs:label>
-    <rdfs:subClassOf rdf:resource="http://www.nexora.org/ontologie/pharma#Personne"/>
-  </owl:Class>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Hypertension">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hypertension artérielle</nx:nom>
-    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pression artérielle durablement élevée.</nx:description>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_AstraZeneca">
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Lab_BMS">
     <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AstraZeneca</nx:nom>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bristol-Myers Squibb</nx:nom>
+    <rdfs:label xml:lang="fr">Bristol-Myers Squibb</rdfs:label>
   </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_FibrillationAuriculaire">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fibrillation auriculaire</nx:nom>
-    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Trouble du rythme cardiaque.</nx:description>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Cond_Alcoolisme">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#ConditionPhysiologique"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Alcoolisme chronique</nx:nom>
-    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Consommation chronique d'alcool.</nx:description>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Metformine">
+  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_AcideAcetylsalicylique">
     <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Metformine</nx:nom>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Omeprazole">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Oméprazole</nx:nom>
-  </owl:NamedIndividual>
-  <owl:Class rdf:about="http://www.nexora.org/ontologie/pharma#Molecule">
-    <rdfs:label xml:lang="fr">Molécule (principe actif)</rdfs:label>
-    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Laboratoire"/>
-    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Condition"/>
-    <owl:disjointWith rdf:resource="http://www.nexora.org/ontologie/pharma#Prescription"/>
-  </owl:Class>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Sumatriptan">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sumatriptan</nx:nom>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Warfarine">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Warfarine</nx:nom>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Propranolol">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Propranolol</nx:nom>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mol_Lisinopril">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Molecule"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lisinopril</nx:nom>
-  </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:about="http://www.nexora.org/ontologie/pharma#Mal_Grippe">
-    <rdf:type rdf:resource="http://www.nexora.org/ontologie/pharma#Maladie"/>
-    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Grippe</nx:nom>
-    <nx:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Infection virale respiratoire aiguë.</nx:description>
+    <nx:nom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Acide acétylsalicylique</nx:nom>
+    <rdfs:label xml:lang="fr">Acide acétylsalicylique</rdfs:label>
   </owl:NamedIndividual>
 </rdf:RDF>

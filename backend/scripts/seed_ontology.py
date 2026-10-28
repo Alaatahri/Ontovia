@@ -109,6 +109,9 @@ def individual(g: Graph, iri_name: str, cls: str, **props) -> URIRef:
             g.add((s, NX[key], Literal(value, datatype=XSD.integer)))
         else:
             g.add((s, NX[key], Literal(value, datatype=XSD.string)))
+    # rdfs:label : Protégé affiche les individus par leur nom (View › Render by label)
+    label = " ".join(str(props[k]) for k in ("prenom", "nom") if props.get(k)) or iri_name
+    g.add((s, RDFS.label, Literal(label, lang="fr")))
     return s
 
 
