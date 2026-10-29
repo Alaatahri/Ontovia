@@ -12,12 +12,15 @@ export const NODE_COLORS: Record<string, string> = {
   Medecin: "#0369a1",
   Laboratoire: "#52514e",
   Prescription: "#d55181",
+  Pharmacie: "#008300",
+  Pharmacien: "#9085e9",
+  Infirmier: "#3987e5",
   Autre: "#94a3b8",
 };
 
 const TYPE_LABELS: Record<string, string> = {
   Medicament: "Médicament", Molecule: "Molécule", Maladie: "Maladie", ConditionPhysiologique: "Condition",
-  Patient: "Patient", Medecin: "Médecin", Laboratoire: "Laboratoire", Prescription: "Prescription", Autre: "Autre",
+  Patient: "Patient", Medecin: "Médecin", Laboratoire: "Laboratoire", Prescription: "Prescription", Pharmacie: "Pharmacie", Pharmacien: "Pharmacien", Infirmier: "Infirmier", Autre: "Autre",
 };
 
 /**

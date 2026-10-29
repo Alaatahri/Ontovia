@@ -38,7 +38,7 @@ export function MedicamentList() {
 
   return (
     <>
-      <PageHeader eyebrow="Module 1" title="Médicaments" subtitle="Individus de la classe nx:Medicament et leurs relations dans l'ontologie."
+      <PageHeader eyebrow="Catalogue" title="Médicaments" subtitle="Composition, indications, contre-indications et interactions."
         actions={<>
           <button className="btn-secondary" onClick={exportCsv} disabled={!meds.data?.length}><Download className="h-4 w-4" /> Exporter CSV</button>
           <Link to="/admin/medicaments/nouveau" className="btn-primary"><Plus className="h-4 w-4" /> Nouveau médicament</Link>
@@ -96,7 +96,7 @@ export function MedicamentList() {
       </Card>
       {toDelete && (
         <ConfirmDialog title={`Supprimer ${toDelete.nom} ?`}
-          message="L'individu et toutes les relations qui le concernent (interactions comprises) seront retirés de l'ontologie. Un médicament utilisé dans une prescription ne peut pas être supprimé."
+          message="Le médicament et ses liens (interactions, stock) seront supprimés. Un médicament présent dans une prescription ne peut pas être supprimé."
           onConfirm={async () => { await medicamentsApi.remove(toDelete.id); meds.reload(); }}
           onClose={() => setToDelete(null)} />
       )}

@@ -19,6 +19,7 @@ export interface Medicament {
   contreIndications: Ref[];
   interactions: Ref[];
   prescriptions?: { id: string; date: string | null }[];
+  pharmacies?: { id: string; nom: string; ville: string | null }[];
 }
 
 export interface MedicamentInput {
@@ -83,6 +84,9 @@ export interface Prescription {
   medecin: (Ref & { specialite: string | null }) | null;
   medicaments: Ref[];
   nbRisques: number;
+  statut: "En attente" | "Délivrée";
+  pharmacie: Ref | null;
+  dateDelivrance: string | null;
   analyseRisques?: AnalyseRisques;
 }
 
@@ -103,6 +107,8 @@ export interface References {
   medecins: Ref[];
   medicaments: Ref[];
   patients: Ref[];
+  pharmacies: Ref[];
+  personnel: Ref[];
 }
 
 export interface Point {
@@ -122,6 +128,7 @@ export interface Stats {
     medicamentsLesPlusPrescrits: Point[];
     tranchesAge: Point[];
     risquesParType: Point[];
+    prescriptionsParStatut: Point[];
   };
 }
 
@@ -224,3 +231,89 @@ export interface GraphData {
   nodes: { id: string; nom: string; type: string; focus: boolean }[];
   links: { source: string; target: string; propriete: string }[];
 }
+
+// ---------- Référentiels génériques (médecins, personnel, pharmacies, maladies, conditions, molécules, laboratoires)
+
+export interface RefField {
+  key: string;
+  label: string;
+  kind: "text" | "textarea" | "int" | "email" | "tel";
+  required: boolean;
+  in_list: boolean;
+  max_length: number;
+}
+
+export interface RefRelation {
+  key: string;
+  predicate: string;
+  label: string;
+  options: string;
+  inverse: boolean;
+  blocks_delete: boolean;
+  link: string | null;
+}
+
+export interface RefSpec {
+  type: string;
+  label: string;
+  plural: string;
+  icon: string;
+  member: string;
+  description: string;
+  classes: { id: string; label: string }[];
+  fields: RefField[];
+  relations: RefRelation[];
+}
+
+export interface RefEntity {
+  id: string;
+  nomComplet: string;
+  classe: string;
+  classeLabel: string;
+  champs: Record<string, string | number | null>;
+  relations: Record<string, { id: string; nom: string }[]>;
+  indicateurs?: { titre: string; type: "stats" | "classement"; items: { label: string; valeur: string | number }[] }[];
+}
+
+export interface RefInput {
+  classe?: string;
+  champs: Record<string, string | number | null>;
+  relations: Record<string, string[]>;
+}
+
+// ---------- Pharmacies et délivrance
+
+export interface PharmacieDispo {
+  id: string;
+  nom: string;
+  ville: string | null;
+  horaires: string | null;
+  disponibles: Ref[];
+  manquants: Ref[];
+  complete: boolean;
+}
+
+// ---------- Chat IA
+
+export interface ChatStatus {
+  disponible: boolean;
+  modele: string | null;
+  raison: string | null;
+}
+
+export type ChatMode = "donnees" | "suivi" | "guide" | "navigation" | "general";
+
+export interface GuidePage {
+  id: string;
+  titre: string;
+  chemin: string;
+  description: string;
+  etapes: string[];
+}
+
+export type ChatEvent =
+  | ({ type: "analyse"; mode: ChatMode; guide: GuidePage[]; navigation: { chemin: string; titre: string } | null }
+      & Omit<NlpResponse, "analyse"> & { analyse: NlpResponse["analyse"] | null })
+  | { type: "token"; text: string }
+  | { type: "donnees"; texte: string }
+  | { type: "fin"; mode?: ChatMode; modele: string | null; raison: string | null; contexte?: unknown; duree: number };

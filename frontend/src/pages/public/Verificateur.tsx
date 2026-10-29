@@ -41,7 +41,7 @@ export function Verificateur() {
   return (
     <>
       <PublicHero eyebrow="Outil gratuit" title="Vérificateur d'interactions" image={PHOTOS.verificateur}
-        text="Sélectionnez des médicaments et, si vous le souhaitez, des conditions et allergies : les risques sont détectés en direct par des requêtes SPARQL. Aucune donnée n'est enregistrée." />
+        text="Sélectionnez des médicaments et, si vous le souhaitez, des conditions et allergies : les risques sont détectés en direct. Aucune donnée n'est enregistrée." />
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {refs.loading ? <Loading /> : refs.error ? <ErrorBox message={refs.error} onRetry={refs.reload} /> : (
           <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">

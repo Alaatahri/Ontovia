@@ -7,6 +7,8 @@ import pytest
 # Les tests travaillent sur une copie neuve de l'ontologie, jamais sur le fichier partagé.
 _tmpdir = tempfile.mkdtemp(prefix="nexora-tests-")
 os.environ["NEXORA_ONTOLOGY"] = str(Path(_tmpdir) / "nexora-test.owl")
+# Tests déterministes : le chat utilise la réponse sans LLM (Ollama n'est pas requis pour les tests)
+os.environ["NEXORA_LLM"] = "off"
 
 from fastapi.testclient import TestClient  # noqa: E402
 

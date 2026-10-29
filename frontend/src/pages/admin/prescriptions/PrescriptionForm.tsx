@@ -5,7 +5,7 @@ import { prescriptionsApi, referencesApi } from "../../../api/services";
 import type { AnalyseRisques, PrescriptionInput } from "../../../api/types";
 import { MultiSelect } from "../../../components/MultiSelect";
 import { RiskPanel } from "../../../components/RiskPanel";
-import { Card, ErrorBox, Field, Loading, PageHeader } from "../../../components/ui";
+import { Card, ErrorBox, Field, Loading, PageHeader , Sem } from "../../../components/ui";
 import { useAsync, useDebounced } from "../../../hooks/useAsync";
 import { Alternatives } from "./Alternatives";
 
@@ -83,8 +83,8 @@ export function PrescriptionForm() {
 
   return (
     <>
-      <PageHeader eyebrow="Module 3" title={id ? `Modifier ${id}` : "Nouvelle prescription"}
-        subtitle="Les risques sont recalculés à chaque changement ; l'IA propose des alternatives si un risque est détecté." />
+      <PageHeader eyebrow="Ordonnances" title={id ? `Modifier ${id}` : "Nouvelle prescription"}
+        subtitle="Les risques sont vérifiés en direct ; l'IA propose des alternatives." />
       <form onSubmit={submit} className="space-y-6">
         {error && <ErrorBox message={error} />}
         <div className="grid gap-6 xl:grid-cols-2">
@@ -113,7 +113,7 @@ export function PrescriptionForm() {
                 <Field label="Posologie"><textarea className="input" rows={3} value={form.posologie ?? ""} onChange={(e) => set("posologie", e.target.value)} /></Field>
               </div>
             </Card>
-            <Card title="Médicaments (nx:prescritMedicament)">
+            <Card title={<>Médicaments <Sem>nx:prescritMedicament</Sem></>}>
               <MultiSelect options={r.medicaments} value={form.medicamentIds} onChange={(v) => set("medicamentIds", v)} />
             </Card>
           </div>

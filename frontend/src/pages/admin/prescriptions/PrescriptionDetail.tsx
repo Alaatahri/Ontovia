@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, HeartPulse, Pencil, Printer, ShieldAlert, Trash2 } from "lucide-react";
+import { ArrowLeft, HeartPulse, Pencil, Printer, ShieldAlert, Store, Trash2 } from "lucide-react";
 import { prescriptionsApi } from "../../../api/services";
 import { ConfirmDialog } from "../../../components/ConfirmDialog";
 import { RiskPanel } from "../../../components/RiskPanel";
-import { Card, Chips, ErrorBox, InfoRow, Iri, Loading, PageHeader, RiskBadge, formatDate } from "../../../components/ui";
+import { Card, Chips, ErrorBox, InfoRow, Iri, Loading, PageHeader, RiskBadge, formatDate , Sem } from "../../../components/ui";
 import { useAsync } from "../../../hooks/useAsync";
 import { Alternatives } from "./Alternatives";
+import { Delivrance, StatutBadge } from "./Delivrance";
 
 export function PrescriptionDetail() {
   const { id = "" } = useParams();
@@ -20,19 +21,19 @@ export function PrescriptionDetail() {
   return (
     <>
       <div className="no-print">
-        <PageHeader eyebrow="Prescription" title={p.id} subtitle={<Iri id={p.id} />}
+        <PageHeader eyebrow="Prescription" title={p.id} subtitle={<span className="flex flex-wrap items-center gap-2"><Iri id={p.id} /><StatutBadge statut={p.statut} /></span>}
           actions={<>
             <Link to="/admin/prescriptions" className="btn-ghost"><ArrowLeft className="h-4 w-4" /> Retour</Link>
             <button className="btn-secondary" onClick={() => window.print()}><Printer className="h-4 w-4" /> Imprimer l'ordonnance</button>
-            <Link to={`/admin/prescriptions/${p.id}/modifier`} className="btn-secondary"><Pencil className="h-4 w-4" /> Modifier</Link>
+            {p.statut !== "Délivrée" && <Link to={`/admin/prescriptions/${p.id}/modifier`} className="btn-secondary"><Pencil className="h-4 w-4" /> Modifier</Link>}
             <button className="btn-danger" onClick={() => setConfirm(true)}><Trash2 className="h-4 w-4" /> Supprimer</button>
           </>} />
         <div className="grid gap-6 xl:grid-cols-[1fr_1.2fr]">
           <Card title="Relations de la prescription">
             <dl className="divide-y divide-slate-100">
-              <InfoRow label="Patient (nx:concernePatient)">{p.patient && <Link className="font-medium hover:text-brand-700" to={`/admin/patients/${p.patient.id}`}>{p.patient.nom}</Link>}</InfoRow>
-              <InfoRow label="Médecin (nx:prescritePar)">{p.medecin && `${p.medecin.nom}${p.medecin.specialite ? ` — ${p.medecin.specialite}` : ""}`}</InfoRow>
-              <InfoRow label="Médicaments (nx:prescritMedicament)"><Chips items={p.medicaments} to={(r) => `/admin/medicaments/${r.id}`} /></InfoRow>
+              <InfoRow label={<>Patient <Sem>nx:concernePatient</Sem></>}>{p.patient && <Link className="font-medium hover:text-brand-700" to={`/admin/patients/${p.patient.id}`}>{p.patient.nom}</Link>}</InfoRow>
+              <InfoRow label={<>Médecin <Sem>nx:prescritePar</Sem></>}>{p.medecin && `${p.medecin.nom}${p.medecin.specialite ? ` — ${p.medecin.specialite}` : ""}`}</InfoRow>
+              <InfoRow label={<>Médicaments <Sem>nx:prescritMedicament</Sem></>}><Chips items={p.medicaments} to={(r) => `/admin/medicaments/${r.id}`} /></InfoRow>
               <InfoRow label="Date">{formatDate(p.datePrescription)}</InfoRow>
               <InfoRow label="Durée">{p.dureeJours ? `${p.dureeJours} jours` : null}</InfoRow>
               <InfoRow label="Posologie">{p.posologie}</InfoRow>
@@ -41,8 +42,11 @@ export function PrescriptionDetail() {
           <Card title={<>Risque détecté <RiskBadge count={p.nbRisques} /></>} icon={<ShieldAlert className="h-4 w-4" />}>
             <div className="space-y-4">
               {p.analyseRisques && <RiskPanel analyse={p.analyseRisques} />}
-              {p.nbRisques > 0 && p.patient && <Alternatives patientId={p.patient.id} medicamentIds={p.medicaments.map((m) => m.id)} />}
+              {p.nbRisques > 0 && p.patient && p.statut !== "Délivrée" && <Alternatives patientId={p.patient.id} medicamentIds={p.medicaments.map((m) => m.id)} />}
             </div>
+          </Card>
+          <Card title="Délivrance en pharmacie" icon={<Store className="h-4 w-4" />} className="xl:col-span-2">
+            <Delivrance prescription={p} onChange={reload} />
           </Card>
         </div>
       </div>

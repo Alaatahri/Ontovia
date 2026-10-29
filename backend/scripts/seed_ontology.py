@@ -21,12 +21,18 @@ def build_schema(g: Graph) -> None:
     g.add((ONTOLOGY_IRI, RDF.type, OWL.Ontology))
     g.add((ONTOLOGY_IRI, RDFS.label, Literal("Nexora — Ontologie Pharmaceutique et Santé", lang="fr")))
     g.add((ONTOLOGY_IRI, RDFS.comment, Literal(
-        "Ontologie de gestion des médicaments, des patients et des prescriptions.", lang="fr")))
+        "Ontologie de gestion des médicaments, des patients, des prescriptions, des professionnels de santé "
+        "et des pharmacies.", lang="fr")))
+    g.add((ONTOLOGY_IRI, OWL.versionInfo, Literal("2.0")))
 
     classes = {
         "Personne": (None, "Personne"),
         "Patient": ("Personne", "Patient"),
-        "Medecin": ("Personne", "Médecin"),
+        "PersonnelSante": ("Personne", "Personnel de santé"),
+        "Medecin": ("PersonnelSante", "Médecin"),
+        "Pharmacien": ("PersonnelSante", "Pharmacien"),
+        "Infirmier": ("PersonnelSante", "Infirmier"),
+        "Pharmacie": (None, "Pharmacie"),
         "Medicament": (None, "Médicament"),
         "Molecule": (None, "Molécule (principe actif)"),
         "Laboratoire": (None, "Laboratoire pharmaceutique"),
@@ -42,8 +48,9 @@ def build_schema(g: Graph) -> None:
             g.add((NX[name], RDFS.subClassOf, NX[parent]))
 
     disjoint_groups = [
-        ["Personne", "Medicament", "Molecule", "Laboratoire", "Condition", "Prescription"],
-        ["Patient", "Medecin"],
+        ["Personne", "Medicament", "Molecule", "Laboratoire", "Condition", "Prescription", "Pharmacie"],
+        ["Patient", "PersonnelSante"],
+        ["Medecin", "Pharmacien", "Infirmier"],
         ["Maladie", "ConditionPhysiologique"],
     ]
     for group in disjoint_groups:
@@ -65,6 +72,9 @@ def build_schema(g: Graph) -> None:
         ("concernePatient", "Prescription", "Patient", "concerne le patient", [OWL.FunctionalProperty]),
         ("prescritePar", "Prescription", "Medecin", "est prescrite par", [OWL.FunctionalProperty]),
         ("prescritMedicament", "Prescription", "Medicament", "prescrit le médicament", []),
+        ("travailleDans", "PersonnelSante", "Pharmacie", "travaille dans", []),
+        ("disposeDe", "Pharmacie", "Medicament", "dispose en stock de", []),
+        ("delivreePar", "Prescription", "Pharmacie", "est délivrée par", [OWL.FunctionalProperty]),
     ]
     for name, domain, rng, label, extra in object_props:
         g.add((NX[name], RDF.type, OWL.ObjectProperty))
@@ -87,6 +97,14 @@ def build_schema(g: Graph) -> None:
         ("datePrescription", "Prescription", XSD.date, "date de prescription"),
         ("posologie", "Prescription", XSD.string, "posologie"),
         ("dureeJours", "Prescription", XSD.integer, "durée du traitement (jours)"),
+        ("statut", "Prescription", XSD.string, "statut (En attente / Délivrée)"),
+        ("dateDelivrance", "Prescription", XSD.date, "date de délivrance"),
+        ("telephone", None, XSD.string, "téléphone"),
+        ("email", None, XSD.string, "e-mail"),
+        ("adresse", None, XSD.string, "adresse"),
+        ("ville", None, XSD.string, "ville"),
+        ("horaires", "Pharmacie", XSD.string, "horaires d'ouverture"),
+        ("pays", "Laboratoire", XSD.string, "pays"),
     ]
     for name, domain, rng, label in data_props:
         g.add((NX[name], RDF.type, OWL.DatatypeProperty))
@@ -94,7 +112,7 @@ def build_schema(g: Graph) -> None:
             g.add((NX[name], RDFS.domain, NX[domain]))
         g.add((NX[name], RDFS.range, rng))
         g.add((NX[name], RDFS.label, Literal(label, lang="fr")))
-    for name in ("age", "sexe", "datePrescription"):
+    for name in ("age", "sexe", "datePrescription", "statut", "dateDelivrance"):
         g.add((NX[name], RDF.type, OWL.FunctionalProperty))
 
 
@@ -122,12 +140,13 @@ def link(g: Graph, s: str, prop: str, targets: list[str]) -> None:
 
 def build_individuals(g: Graph) -> None:
     labs = {
-        "Lab_Bayer": "Bayer", "Lab_Sanofi": "Sanofi", "Lab_Pfizer": "Pfizer", "Lab_GSK": "GSK",
-        "Lab_Merck": "Merck", "Lab_AstraZeneca": "AstraZeneca", "Lab_BMS": "Bristol-Myers Squibb",
-        "Lab_MSD": "MSD",
+        "Lab_Bayer": ("Bayer", "Allemagne"), "Lab_Sanofi": ("Sanofi", "France"), "Lab_Pfizer": ("Pfizer", "États-Unis"),
+        "Lab_GSK": ("GSK", "Royaume-Uni"), "Lab_Merck": ("Merck", "Allemagne"),
+        "Lab_AstraZeneca": ("AstraZeneca", "Royaume-Uni"), "Lab_BMS": ("Bristol-Myers Squibb", "États-Unis"),
+        "Lab_MSD": ("MSD", "États-Unis"),
     }
-    for iri, nom in labs.items():
-        individual(g, iri, "Laboratoire", nom=nom)
+    for iri, (nom, pays) in labs.items():
+        individual(g, iri, "Laboratoire", nom=nom, pays=pays)
 
     molecules = {
         "Mol_AcideAcetylsalicylique": "Acide acétylsalicylique", "Mol_Paracetamol": "Paracétamol",
@@ -216,13 +235,44 @@ def build_individuals(g: Graph) -> None:
         g.add((NX[a], NX.interagitAvec, NX[b]))
 
     medecins = [
-        ("Doc_SamiBouazizi", "Sami", "Bouazizi", "Médecine générale"),
-        ("Doc_RimKhelifi", "Rim", "Khelifi", "Neurologie"),
-        ("Doc_HichemSaidi", "Hichem", "Saidi", "Cardiologie"),
-        ("Doc_AmelFerchichi", "Amel", "Ferchichi", "Pneumologie"),
+        ("Doc_SamiBouazizi", "Sami", "Bouazizi", "Médecine générale", "71 234 501", "Tunis"),
+        ("Doc_RimKhelifi", "Rim", "Khelifi", "Neurologie", "71 234 502", "Tunis"),
+        ("Doc_HichemSaidi", "Hichem", "Saidi", "Cardiologie", "73 220 410", "Sousse"),
+        ("Doc_AmelFerchichi", "Amel", "Ferchichi", "Pneumologie", "70 815 330", "Ariana"),
     ]
-    for iri, prenom, nom, spec in medecins:
-        individual(g, iri, "Medecin", prenom=prenom, nom=nom, specialite=spec)
+    for iri, prenom, nom, spec, tel, ville in medecins:
+        email = f"{prenom.lower()}.{nom.lower()}@nexora.tn"
+        individual(g, iri, "Medecin", prenom=prenom, nom=nom, specialite=spec, telephone=tel, ville=ville, email=email)
+
+    # (iri, nom, adresse, ville, téléphone, horaires, médicaments en stock)
+    pharmacies = [
+        ("Pharm_CentraleTunis", "Pharmacie Centrale de Tunis", "12 avenue Habib Bourguiba", "Tunis", "71 330 100",
+         "Lun–Sam 8h–20h", ["Med_Aspirine", "Med_Doliprane", "Med_Advil", "Med_Clamoxyl", "Med_Augmentin",
+                            "Med_Glucophage", "Med_Ventoline", "Med_Zestril", "Med_Mopral"]),
+        ("Pharm_Ennasr", "Pharmacie Ennasr", "5 rue Hédi Nouira, Ennasr 2", "Ariana", "70 834 220",
+         "7j/7 8h–23h", ["Med_Doliprane", "Med_Advil", "Med_Ventoline", "Med_Avlocardyl", "Med_Imigrane",
+                         "Med_Zocor", "Med_Mopral"]),
+        ("Pharm_ElManar", "Pharmacie El Manar", "3 rue Abou Kacem Chebbi, El Manar", "Tunis", "71 880 450",
+         "Pharmacie de garde 24h/24", ["Med_Doliprane", "Med_Coumadine", "Med_Aspirine", "Med_Zestril",
+                                       "Med_Glucophage", "Med_Clamoxyl"]),
+        ("Pharm_Sousse", "Pharmacie du Centre Sousse", "40 avenue Léopold Senghor", "Sousse", "73 225 610",
+         "Lun–Sam 8h30–19h30", ["Med_Coumadine", "Med_Doliprane", "Med_Zocor", "Med_Avlocardyl", "Med_Mopral"]),
+    ]
+    for iri, nom, adresse, ville, tel, horaires, stock in pharmacies:
+        individual(g, iri, "Pharmacie", nom=nom, adresse=adresse, ville=ville, telephone=tel, horaires=horaires)
+        link(g, iri, "disposeDe", stock)
+
+    # Personnel de santé non médecin (iri, classe, prénom, nom, téléphone, lieu de travail)
+    personnel = [
+        ("Phar_NourChaabane", "Pharmacien", "Nour", "Chaabane", "98 120 330", ["Pharm_CentraleTunis"]),
+        ("Phar_WalidMejri", "Pharmacien", "Walid", "Mejri", "22 450 118", ["Pharm_Ennasr"]),
+        ("Phar_SoniaHaddad", "Pharmacien", "Sonia", "Haddad", "55 300 714", ["Pharm_Sousse"]),
+        ("Inf_MounaRiahi", "Infirmier", "Mouna", "Riahi", "97 600 215", ["Pharm_ElManar"]),
+        ("Inf_AymenTlili", "Infirmier", "Aymen", "Tlili", "29 117 840", []),
+    ]
+    for iri, cls, prenom, nom, tel, lieux in personnel:
+        individual(g, iri, cls, prenom=prenom, nom=nom, telephone=tel)
+        link(g, iri, "travailleDans", lieux)
 
     # (iri, prénom, nom, âge, sexe, maladies, conditions, allergies)
     patients = [
@@ -270,6 +320,13 @@ def build_individuals(g: Graph) -> None:
         link(g, iri, "concernePatient", [pat])
         link(g, iri, "prescritePar", [doc])
         link(g, iri, "prescritMedicament", meds)
+        g.add((s, NX.statut, Literal("En attente", datatype=XSD.string)))
+
+    # Prescriptions déjà délivrées en pharmacie (iri, pharmacie, date)
+    for iri, pharm, date in [("Presc_006", "Pharm_Ennasr", "2026-10-05"), ("Presc_007", "Pharm_CentraleTunis", "2026-10-12")]:
+        g.set((NX[iri], NX.statut, Literal("Délivrée", datatype=XSD.string)))
+        g.add((NX[iri], NX.delivreePar, NX[pharm]))
+        g.add((NX[iri], NX.dateDelivrance, Literal(date, datatype=XSD.date)))
 
 
 def build_graph() -> Graph:

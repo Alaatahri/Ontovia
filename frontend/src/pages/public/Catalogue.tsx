@@ -32,7 +32,7 @@ export function Catalogue() {
   return (
     <>
       <PublicHero eyebrow="Catalogue" title="Médicaments de l'ontologie" image={PHOTOS.catalogue}
-        text="Chaque fiche est construite à partir des relations RDF : composition, indications, contre-indications et interactions." />
+        text="Composition, indications, contre-indications et interactions de chaque médicament." />
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="card relative z-10 -mt-16 mb-8 grid gap-3 p-4 shadow-lift md:grid-cols-[1fr_220px_220px]">
           <SearchInput value={q} onChange={setQ} placeholder="Rechercher un médicament…" />

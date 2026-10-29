@@ -4,7 +4,7 @@ import { ArrowLeft, BrainCircuit, Network, Pencil, Trash2 } from "lucide-react";
 import { medicamentsApi } from "../../../api/services";
 import { ConfirmDialog } from "../../../components/ConfirmDialog";
 import { GraphExplorer } from "../../../components/GraphExplorer";
-import { Card, Chips, ErrorBox, InfoRow, Iri, Loading, PageHeader, formatDate } from "../../../components/ui";
+import { Card, Chips, ErrorBox, InfoRow, Iri, Loading, PageHeader, formatDate , Sem } from "../../../components/ui";
 import { useAsync } from "../../../hooks/useAsync";
 import { medicamentImage } from "../../../lib/images";
 import { SimilarMedicaments } from "../../public/MedicamentPublic";
@@ -30,14 +30,21 @@ export function MedicamentDetail() {
         <div className="space-y-6 xl:col-span-2">
           <Card title="Informations">
             <dl className="divide-y divide-slate-100">
-              <InfoRow label="Dosage (nx:dosage)">{m.dosage}</InfoRow>
+              <InfoRow label={<>Dosage <Sem>nx:dosage</Sem></>}>{m.dosage}</InfoRow>
               <InfoRow label="Forme galénique">{m.formeGalenique}</InfoRow>
-              <InfoRow label="Laboratoire (nx:fabriquePar)">{m.laboratoire?.nom}</InfoRow>
-              <InfoRow label="Composition (nx:contientMolecule)"><Chips items={m.molecules} tone="chip-indigo" /></InfoRow>
-              <InfoRow label="Indications (nx:traite)"><Chips items={m.maladies} /></InfoRow>
-              <InfoRow label="Contre-indications (nx:aContreIndication)"><Chips items={m.contreIndications} /></InfoRow>
-              <InfoRow label="Interactions (nx:interagitAvec)"><Chips items={m.interactions} tone="chip-amber" to={(r) => `/admin/medicaments/${r.id}`} /></InfoRow>
+              <InfoRow label={<>Laboratoire <Sem>nx:fabriquePar</Sem></>}>{m.laboratoire?.nom}</InfoRow>
+              <InfoRow label={<>Composition <Sem>nx:contientMolecule</Sem></>}><Chips items={m.molecules} tone="chip-indigo" /></InfoRow>
+              <InfoRow label={<>Indications <Sem>nx:traite</Sem></>}><Chips items={m.maladies} /></InfoRow>
+              <InfoRow label={<>Contre-indications <Sem>nx:aContreIndication</Sem></>}><Chips items={m.contreIndications} /></InfoRow>
+              <InfoRow label={<>Interactions <Sem>nx:interagitAvec</Sem></>}><Chips items={m.interactions} tone="chip-amber" to={(r) => `/admin/medicaments/${r.id}`} /></InfoRow>
               <InfoRow label="Description">{m.description}</InfoRow>
+              <InfoRow label={<>En stock dans <Sem>nx:disposeDe</Sem></>}>
+                {m.pharmacies?.length ? (
+                  <div className="flex flex-wrap gap-1.5">
+                    {m.pharmacies.map((ph) => <Link key={ph.id} to={`/admin/pharmacies/${ph.id}`} className="chip chip-brand">{ph.nom} · {ph.ville}</Link>)}
+                  </div>
+                ) : <span className="text-sm text-rose-600">Aucune pharmacie</span>}
+              </InfoRow>
               <InfoRow label="Utilisé dans">
                 {m.prescriptions?.length ? (
                   <div className="flex flex-wrap gap-1.5">
@@ -47,7 +54,7 @@ export function MedicamentDetail() {
               </InfoRow>
             </dl>
           </Card>
-          <Card title="Graphe RDF du médicament" icon={<Network className="h-4 w-4" />}>
+          <Card title="Graphe de connaissances" icon={<Network className="h-4 w-4" />}>
             <GraphExplorer initialId={m.id} />
           </Card>
         </div>

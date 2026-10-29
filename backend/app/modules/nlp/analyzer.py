@@ -100,7 +100,7 @@ SYNONYMS = {
 GAZETTEER_QUERY = """
 SELECT ?s ?type ?nom ?prenom WHERE {
   VALUES ?type { nx:Medicament nx:Molecule nx:Maladie nx:ConditionPhysiologique
-                 nx:Patient nx:Medecin nx:Laboratoire }
+                 nx:Patient nx:Medecin nx:Laboratoire nx:Pharmacie nx:Pharmacien nx:Infirmier }
   ?s a ?type ;
      nx:nom ?nom .
   OPTIONAL { ?s nx:prenom ?prenom }
@@ -126,6 +126,10 @@ def build_gazetteer() -> dict[str, GazetteerEntry]:
         display = f"{prenom} {nom}" if prenom else nom
         if type_ == "Medecin":
             display = f"Dr {display}"
+        if type_ == "Pharmacie":
+            # « Pharmacie Ennasr » est aussi reconnue par « Ennasr »
+            short = normalize(nom).replace("pharmacie du ", "").replace("pharmacie de ", "").replace("pharmacie ", "")
+            labels.setdefault(short, GazetteerEntry(local_id(row["s"]), display, type_))
         entry = GazetteerEntry(local_id(row["s"]), display, type_)
         by_id[entry.id] = entry
         variants = {normalize(nom)}

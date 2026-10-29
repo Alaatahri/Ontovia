@@ -5,12 +5,22 @@ from dataclasses import asdict
 
 from app.core.graph_store import store
 from app.core.rdf import to_python
-from app.modules.nlp.analyzer import analyze
-from app.modules.nlp.intents import EXAMPLES, full_query, match_intent, suggestions_for
+from app.modules.nlp.analyzer import Analysis, Entity, analyze, build_gazetteer
+from app.modules.nlp.intents import EXAMPLES, INTENTS, Context, full_query, match_intent, suggestions_for
 
 
-def answer(question: str) -> dict:
-    analysis = analyze(question)
+def _context_entity(analysis: Analysis, contexte: dict | None) -> None:
+    entry = next((e for e in build_gazetteer().values() if e.id == (contexte or {}).get("id")), None)
+    if entry is not None:
+        analysis.entities.append(Entity(entry.id, entry.nom, entry.type, "(contexte de la conversation)", 100.0, -1, -1))
+
+
+def answer(question: str, contexte: dict | None = None, analysis: Analysis | None = None) -> dict:
+    """`contexte` : entité du tour précédent de la conversation ({id, nom, type}). Si la nouvelle question ne
+    mentionne aucune entité (« et ses interactions ? »), on la réutilise : c'est la résolution de la référence."""
+    analysis = analysis or analyze(question)
+    if contexte and not analysis.entities:
+        _context_entity(analysis, contexte)
     base = {
         "question": question,
         "analyse": {
@@ -29,7 +39,28 @@ def answer(question: str) -> dict:
             "suggestions": suggestions_for(analysis),
         }
 
-    intent, ctx, score = matched
+    return _execute(base, *matched)
+
+
+def rerun(question: str, intent_id: str, contexte: dict | None) -> dict | None:
+    """Question de suivi (« un autre ? », « tu es sûr ? ») : on réexécute l'intention du tour précédent
+    sur la même entité. Renvoie None si l'intention précédente ne peut pas être rejouée."""
+    intent = next((i for i in INTENTS if i.id == intent_id), None)
+    if intent is None or intent.needs_class or intent.needs_number:
+        return None
+    analysis = analyze(question)
+    ctx = Context(analysis)
+    if intent.entity_types:
+        _context_entity(analysis, contexte)
+        if not analysis.entities or analysis.entities[-1].type not in intent.entity_types:
+            return None
+        ctx.entity = analysis.entities[-1]
+    base = {"question": question, "analyse": {"tokens": [asdict(t) for t in analysis.tokens],
+                                              "entites": [asdict(e) for e in analysis.entities], "nombres": []}}
+    return _execute(base, intent, ctx, 0.0)
+
+
+def _execute(base: dict, intent, ctx, score: float) -> dict:
     body, explication = intent.build(ctx)
     sparql = full_query(body)
     result = store.select_raw(sparql)

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import {
-  AlertTriangle, ArrowRight, Bot, Building2, Database, FileText, FlaskConical, HeartPulse, Pill, Stethoscope, Users,
+  AlertTriangle, ArrowRight, Bot, Building2, Database, FileText, FlaskConical, HeartPulse, Pill, Stethoscope, Store, Users, UsersRound,
 } from "lucide-react";
 import { referencesApi } from "../../api/services";
 import { DataTableToggle, HBarChart, TrendChart, VBarChart } from "../../components/Charts";
@@ -14,10 +14,12 @@ const TILES = [
   { cls: "Medicament", label: "Médicaments", icon: Pill, to: "/admin/medicaments", tone: "bg-brand-50 text-brand-700" },
   { cls: "Patient", label: "Patients", icon: Users, to: "/admin/patients", tone: "bg-sky-50 text-sky-700" },
   { cls: "Prescription", label: "Prescriptions", icon: FileText, to: "/admin/prescriptions", tone: "bg-indigo-50 text-indigo-700" },
-  { cls: "Medecin", label: "Médecins", icon: Stethoscope, tone: "bg-slate-100 text-slate-700" },
-  { cls: "Molecule", label: "Molécules", icon: FlaskConical, tone: "bg-violet-50 text-violet-700" },
-  { cls: "Maladie", label: "Maladies", icon: HeartPulse, tone: "bg-rose-50 text-rose-700" },
-  { cls: "Laboratoire", label: "Laboratoires", icon: Building2, tone: "bg-amber-50 text-amber-800" },
+  { cls: "Medecin", label: "Médecins", icon: Stethoscope, to: "/admin/medecins", tone: "bg-slate-100 text-slate-700" },
+  { cls: "Molecule", label: "Molécules", icon: FlaskConical, to: "/admin/molecules", tone: "bg-violet-50 text-violet-700" },
+  { cls: "Maladie", label: "Maladies", icon: HeartPulse, to: "/admin/maladies", tone: "bg-rose-50 text-rose-700" },
+  { cls: "Laboratoire", label: "Laboratoires", icon: Building2, to: "/admin/laboratoires", tone: "bg-amber-50 text-amber-800" },
+  { cls: "Pharmacie", label: "Pharmacies", icon: Store, to: "/admin/pharmacies", tone: "bg-emerald-50 text-emerald-700" },
+  { cls: "Pharmacien", label: "Pharmaciens", icon: UsersRound, to: "/admin/personnel", tone: "bg-indigo-50 text-indigo-700" },
 ];
 
 const MONTHS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
@@ -41,7 +43,7 @@ export function Dashboard() {
         <p className="text-xs font-semibold uppercase tracking-wider text-brand-300">Tableau de bord</p>
         <h1 className="mt-1 text-2xl font-bold text-white sm:text-3xl">Bonjour 👋 Bienvenue dans l'espace Nexora</h1>
         <p className="mt-2 max-w-2xl text-sm text-slate-300">
-          Vue d'ensemble du graphe RDF partagé : toutes les valeurs ci-dessous sont calculées par des requêtes SPARQL (COUNT, GROUP BY).
+          Activité de la plateforme en temps réel.<span className="sem"> Valeurs calculées par des requêtes SPARQL (COUNT, GROUP BY).</span>
           {data.prescriptionsARisque > 0 && <> <strong className="text-rose-300">{data.prescriptionsARisque} prescriptions</strong> présentent un risque détecté.</>}
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
@@ -50,7 +52,7 @@ export function Dashboard() {
         </div>
       </section>
 
-      <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4 xl:grid-cols-8">
+      <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-10">
         {TILES.map(({ cls, label, icon: Icon, to, tone }) => {
           const body = (
             <>
@@ -88,6 +90,9 @@ export function Dashboard() {
           <HBarChart data={g.medicamentsLesPlusPrescrits} unit="prescription(s)" />
         </Card>
         <div className="space-y-6">
+          <Card title="Prescriptions par statut">
+            <VBarChart data={g.prescriptionsParStatut} unit="prescription(s)" height={170} />
+          </Card>
           <Card title="Patients par tranche d'âge">
             <VBarChart data={g.tranchesAge} unit="patient(s)" height={190} />
           </Card>

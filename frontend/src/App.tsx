@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { Link, Route, Routes } from "react-router-dom";
+import { ChatProvider } from "./components/chat/ChatContext";
 import { AdminLayout } from "./layouts/AdminLayout";
 import { PublicLayout } from "./layouts/PublicLayout";
 import { Catalogue } from "./pages/public/Catalogue";
@@ -19,6 +20,10 @@ const PrescriptionDetail = lazy(() => import("./pages/admin/prescriptions/Prescr
 const PrescriptionForm = lazy(() => import("./pages/admin/prescriptions/PrescriptionForm").then((m) => ({ default: m.PrescriptionForm })));
 const PrescriptionList = lazy(() => import("./pages/admin/prescriptions/PrescriptionList").then((m) => ({ default: m.PrescriptionList })));
 const SparqlConsole = lazy(() => import("./pages/admin/SparqlConsole").then((m) => ({ default: m.SparqlConsole })));
+const RefList = lazy(() => import("./pages/admin/referentiels/RefList").then((m) => ({ default: m.RefList })));
+const RefDetail = lazy(() => import("./pages/admin/referentiels/RefDetail").then((m) => ({ default: m.RefDetail })));
+const RefForm = lazy(() => import("./pages/admin/referentiels/RefForm").then((m) => ({ default: m.RefForm })));
+const Pharmacies = lazy(() => import("./pages/public/Pharmacies").then((m) => ({ default: m.Pharmacies })));
 const About = lazy(() => import("./pages/public/About").then((m) => ({ default: m.About })));
 const AssistantPublic = lazy(() => import("./pages/public/AssistantPublic").then((m) => ({ default: m.AssistantPublic })));
 const MedicamentPublic = lazy(() => import("./pages/public/MedicamentPublic").then((m) => ({ default: m.MedicamentPublic })));
@@ -36,6 +41,7 @@ function NotFound() {
 
 export default function App() {
   return (
+    <ChatProvider>
     <Routes>
       {/* Front-office public */}
       <Route element={<PublicLayout />}>
@@ -44,6 +50,7 @@ export default function App() {
         <Route path="catalogue/:id" element={<MedicamentPublic />} />
         <Route path="verificateur" element={<Verificateur />} />
         <Route path="assistant" element={<AssistantPublic />} />
+        <Route path="pharmacies" element={<Pharmacies />} />
         <Route path="a-propos" element={<About />} />
         <Route path="*" element={<NotFound />} />
       </Route>
@@ -70,8 +77,38 @@ export default function App() {
         <Route path="assistant" element={<AssistantAdmin />} />
         <Route path="ontologie" element={<OntologyPage />} />
         <Route path="sparql" element={<SparqlConsole />} />
+        {/* Référentiels (CRUD génériques pilotés par l'API) */}
+        <Route path="medecins" element={<RefList type="medecins" />} />
+        <Route path="medecins/nouveau" element={<RefForm type="medecins" />} />
+        <Route path="medecins/:id" element={<RefDetail type="medecins" key="medecins" />} />
+        <Route path="medecins/:id/modifier" element={<RefForm type="medecins" />} />
+        <Route path="personnel" element={<RefList type="personnel" />} />
+        <Route path="personnel/nouveau" element={<RefForm type="personnel" />} />
+        <Route path="personnel/:id" element={<RefDetail type="personnel" key="personnel" />} />
+        <Route path="personnel/:id/modifier" element={<RefForm type="personnel" />} />
+        <Route path="pharmacies" element={<RefList type="pharmacies" />} />
+        <Route path="pharmacies/nouveau" element={<RefForm type="pharmacies" />} />
+        <Route path="pharmacies/:id" element={<RefDetail type="pharmacies" key="pharmacies" />} />
+        <Route path="pharmacies/:id/modifier" element={<RefForm type="pharmacies" />} />
+        <Route path="maladies" element={<RefList type="maladies" />} />
+        <Route path="maladies/nouveau" element={<RefForm type="maladies" />} />
+        <Route path="maladies/:id" element={<RefDetail type="maladies" key="maladies" />} />
+        <Route path="maladies/:id/modifier" element={<RefForm type="maladies" />} />
+        <Route path="conditions" element={<RefList type="conditions" />} />
+        <Route path="conditions/nouveau" element={<RefForm type="conditions" />} />
+        <Route path="conditions/:id" element={<RefDetail type="conditions" key="conditions" />} />
+        <Route path="conditions/:id/modifier" element={<RefForm type="conditions" />} />
+        <Route path="molecules" element={<RefList type="molecules" />} />
+        <Route path="molecules/nouveau" element={<RefForm type="molecules" />} />
+        <Route path="molecules/:id" element={<RefDetail type="molecules" key="molecules" />} />
+        <Route path="molecules/:id/modifier" element={<RefForm type="molecules" />} />
+        <Route path="laboratoires" element={<RefList type="laboratoires" />} />
+        <Route path="laboratoires/nouveau" element={<RefForm type="laboratoires" />} />
+        <Route path="laboratoires/:id" element={<RefDetail type="laboratoires" key="laboratoires" />} />
+        <Route path="laboratoires/:id/modifier" element={<RefForm type="laboratoires" />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
+    </ChatProvider>
   );
 }

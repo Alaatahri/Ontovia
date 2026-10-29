@@ -38,7 +38,6 @@ export const PHOTOS = {
   laboratoire: "/images/laboratoire.jpg",
   pharmacie: "/images/pharmacie.jpg",
   medecin: "/images/medecin.jpg",
-  hopital: "/images/hopital.jpg",
   tension: "/images/tension.jpg",
   catalogue: "/images/banner-catalogue.jpg",
   verificateur: "/images/banner-verificateur.jpg",

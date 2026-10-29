@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { AlertTriangle, ArrowLeft, BrainCircuit, Building2, FlaskConical, HeartPulse, Network, Pill, ShieldAlert } from "lucide-react";
+import { AlertTriangle, ArrowLeft, BrainCircuit, Building2, FlaskConical, HeartPulse, Network, Pill, ShieldAlert, Store } from "lucide-react";
 import { medicamentsApi } from "../../api/services";
 import { GraphExplorer } from "../../components/GraphExplorer";
 import { Card, Chips, ErrorBox, Iri, Loading } from "../../components/ui";
@@ -82,6 +82,14 @@ export function MedicamentPublic() {
           </Card>
         </div>
         <div className="space-y-6">
+          <Card title="Disponible en pharmacie" icon={<Store className="h-4 w-4" />}>
+            {m.pharmacies?.length ? (
+              <ul className="space-y-2 text-sm">
+                {m.pharmacies.map((ph) => <li key={ph.id} className="flex items-center justify-between"><span className="font-medium">{ph.nom}</span><span className="text-slate-500">{ph.ville}</span></li>)}
+              </ul>
+            ) : <p className="text-sm text-slate-500">Aucune pharmacie partenaire ne l'a en stock.</p>}
+            <Link to="/pharmacies" className="btn-secondary btn-sm mt-3">Chercher pour toute une ordonnance</Link>
+          </Card>
           <Card title="Laboratoire" icon={<Building2 className="h-4 w-4" />}>
             <p className="font-medium">{m.laboratoire?.nom ?? "—"}</p>
             {m.description && <p className="mt-2 text-sm text-slate-600">{m.description}</p>}

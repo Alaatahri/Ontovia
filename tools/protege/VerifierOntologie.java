@@ -32,7 +32,7 @@ public class VerifierOntologie {
 
         OWLDataFactory df = manager.getOWLDataFactory();
         String ns = "http://www.nexora.org/ontologie/pharma#";
-        for (String cls : new String[]{"Personne", "Condition"}) {
+        for (String cls : new String[]{"PersonnelSante", "Condition"}) {
             OWLClass c = df.getOWLClass(IRI.create(ns + cls));
             String inst = reasoner.getInstances(c, false).getFlattened().stream()
                 .map(i -> i.getIRI().getShortForm()).sorted().collect(Collectors.joining(", "));

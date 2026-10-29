@@ -119,7 +119,7 @@ export function Field({ label, required, children, hint }: { label: string; requ
   );
 }
 
-export function InfoRow({ label, children }: { label: string; children: ReactNode }) {
+export function InfoRow({ label, children }: { label: ReactNode; children: ReactNode }) {
   return (
     <div className="grid gap-1 py-2.5 sm:grid-cols-[180px_1fr] sm:gap-4">
       <dt className="text-sm text-slate-500">{label}</dt>
@@ -129,7 +129,12 @@ export function InfoRow({ label, children }: { label: string; children: ReactNod
 }
 
 export function Iri({ id }: { id: string }) {
-  return <code className="rounded-md bg-brand-50 px-1.5 py-0.5 font-mono text-xs text-brand-700">nx:{id}</code>;
+  return <code className="sem rounded-md bg-brand-50 px-1.5 py-0.5 font-mono text-xs text-brand-700">nx:{id}</code>;
+}
+
+/** Détail sémantique (propriété, IRI…) : affiché seulement quand le « mode sémantique » est activé. */
+export function Sem({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return <span className={`sem font-mono text-[11px] font-normal text-brand-600 ${className}`}>{children}</span>;
 }
 
 export function RiskBadge({ count }: { count: number }) {

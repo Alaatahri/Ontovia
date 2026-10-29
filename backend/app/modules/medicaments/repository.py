@@ -44,6 +44,14 @@ SELECT ?p ?date WHERE {
 ORDER BY ?p
 """
 
+PHARMACIES_QUERY = """
+SELECT ?ph ?nom ?ville WHERE {
+  ?ph a nx:Pharmacie ; nx:disposeDe ?m ; nx:nom ?nom .
+  OPTIONAL { ?ph nx:ville ?ville }
+}
+ORDER BY ?nom
+"""
+
 RELATION_KEYS = ("molecules", "maladies", "contreIndications", "interactions")
 MANAGED_PREDICATES = [NX.nom, NX.dosage, NX.formeGalenique, NX.description, NX.fabriquePar,
                       NX.contientMolecule, NX.traite, NX.aContreIndication, NX.interagitAvec]
@@ -94,6 +102,10 @@ def get_medicament(med_id: str) -> dict:
     result = _serialize(row, _relations([uri]))
     prescriptions = store.select(PRESCRIPTIONS_QUERY, {"m": uri})
     result["prescriptions"] = [{"id": local_id(p["p"]), "date": to_python(p.get("date"))} for p in prescriptions]
+    result["pharmacies"] = [
+        {"id": local_id(r["ph"]), "nom": to_python(r["nom"]), "ville": to_python(r.get("ville"))}
+        for r in store.select(PHARMACIES_QUERY, {"m": uri})
+    ]
     return result
 
 

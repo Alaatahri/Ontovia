@@ -25,7 +25,7 @@ export function PatientList() {
 
   return (
     <>
-      <PageHeader eyebrow="Module 2" title="Patients" subtitle="Individus de la classe nx:Patient : maladies, conditions physiologiques et allergies."
+      <PageHeader eyebrow="Dossiers" title="Patients" subtitle="Maladies, conditions physiologiques et allergies de chaque patient."
         actions={<Link to="/admin/patients/nouveau" className="btn-primary"><Plus className="h-4 w-4" /> Nouveau patient</Link>} />
       <Card bodyClass="">
         <div className="grid gap-3 border-b border-slate-100 p-4 md:grid-cols-2 xl:grid-cols-[1fr_200px_200px_160px]">

@@ -10,7 +10,6 @@ Identifiants des photos d'origine (https://images.unsplash.com/photo-<identifian
 | laboratoire.jpg | 1581093450021-4a7360e9a6b5 |
 | pharmacie.jpg | 1576602976047-174e57a47881 |
 | medecin.jpg | 1559839734-2b71ea197ec2 |
-| hopital.jpg | 1519494026892-80bbd2d6fd0d |
 | tension.jpg | 1631815589968-fdb09a223b1e |
 | banner-catalogue.jpg, medicaments/pilules.jpg | 1471864190281-a93a3070b6de |
 | banner-verificateur.jpg, medicaments/blisters.jpg | 1631549916768-4119b2e5f926 |

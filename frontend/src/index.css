@@ -55,7 +55,7 @@
   .code { @apply overflow-x-auto rounded-xl bg-ink-900 p-4 font-mono text-[12.5px] leading-relaxed text-teal-50; }
 
   /* Navigation back-office */
-  .side-link { @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/5 hover:text-white; }
+  .side-link { @apply flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/5 hover:text-white; }
   .side-link.active { @apply bg-brand-500/15 text-white ring-1 ring-inset ring-brand-400/30; }
   .side-link.active svg { @apply text-brand-300; }
 
@@ -63,6 +63,9 @@
   .nav-link { @apply rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:text-brand-700; }
   .nav-link.active { @apply text-brand-700; }
 }
+
+/* Mode sémantique : les détails techniques (propriétés nx:, IRI, requêtes) n'apparaissent que sur demande. */
+html:not(.sem-on) .sem { display: none !important; }
 
 @media print {
   .no-print { display: none !important; }

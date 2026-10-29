@@ -9,11 +9,15 @@ from app.config import CORS_ORIGINS
 from app.core.errors import AppError
 from app.core.graph_store import store
 from app.core.rdf import InvalidIdError
+from app.modules.chat.llm import warm_up as llm_warm_up
+from app.modules.chat.router import router as chat_router
 from app.modules.ia.router import router as ia_router
 from app.modules.medicaments.router import router as medicaments_router
 from app.modules.nlp.router import router as nlp_router
 from app.modules.patients.router import router as patients_router
+from app.modules.prescriptions.router import pharmacies_router
 from app.modules.prescriptions.router import router as prescriptions_router
+from app.modules.referentiel.router import router as referentiel_router
 from app.modules.references.router import router as references_router
 from app.modules.sparql.ontology import router as ontology_router
 from app.modules.sparql.protege import router as protege_router
@@ -42,6 +46,7 @@ def warm_up() -> None:
 async def lifespan(_: FastAPI):
     store.load()
     threading.Thread(target=warm_up, daemon=True).start()
+    threading.Thread(target=llm_warm_up, daemon=True).start()
     yield
 
 
@@ -71,7 +76,8 @@ async def invalid_id_handler(_: Request, exc: InvalidIdError):
 
 
 for router in (medicaments_router, patients_router, prescriptions_router, references_router, nlp_router,
-               ia_router, sparql_router, ontology_router, protege_router):
+               ia_router, sparql_router, ontology_router, protege_router, referentiel_router, pharmacies_router,
+               chat_router):
     app.include_router(router)
 
 

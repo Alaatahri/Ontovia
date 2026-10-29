@@ -1,8 +1,9 @@
 // Un service par module : chaque membre du groupe appelle uniquement les routes de son module.
-import { api, qs } from "./client";
+import { api, qs, streamNdjson } from "./client";
 import type {
-  Alternatives, AnalyseRisques, GraphData, Medicament, MedicamentInput, NlpResponse, OntologyFile, OntologySchema, Patient,
-  PatientInput, Prescription, PrescriptionInput, ReasonerResult, Recommandations, References, Similaires, SparqlResult, Stats,
+  Alternatives, AnalyseRisques, ChatEvent, ChatStatus, GraphData, Medicament, MedicamentInput,
+  OntologyFile, OntologySchema, Patient, PatientInput, PharmacieDispo, Prescription, PrescriptionInput, ReasonerResult,
+  Recommandations, RefEntity, RefInput, RefSpec, References, Similaires, SparqlResult, Stats,
 } from "./types";
 
 const enc = encodeURIComponent;
@@ -31,7 +32,7 @@ export const patientsApi = {
 
 // Membre 3 — Prescriptions
 export const prescriptionsApi = {
-  list: (f: { q?: string; patient?: string; medecin?: string; risque?: string } = {}) =>
+  list: (f: { q?: string; patient?: string; medecin?: string; risque?: string; statut?: string } = {}) =>
     api<Prescription[]>(`/prescriptions${qs(f)}`),
   get: (id: string) => api<Prescription>(`/prescriptions/${enc(id)}`),
   create: (d: PrescriptionInput) => api<Prescription>("/prescriptions", { method: "POST", body: d }),
@@ -41,12 +42,45 @@ export const prescriptionsApi = {
     api<AnalyseRisques>("/prescriptions/verifier-risques", { method: "POST", body: { patientId, medicamentIds } }),
   alternatives: (patientId: string, medicamentIds: string[]) =>
     api<Alternatives>("/ia/alternatives", { method: "POST", body: { patientId, medicamentIds } }),
+  // Métier avancé : délivrance en pharmacie
+  pharmacies: (id: string) => api<PharmacieDispo[]>(`/prescriptions/${enc(id)}/pharmacies`),
+  delivrer: (id: string, pharmacieId: string, forcer = false) =>
+    api<Prescription>(`/prescriptions/${enc(id)}/delivrer`, { method: "POST", body: { pharmacieId, forcer } }),
+  annulerDelivrance: (id: string) => api<Prescription>(`/prescriptions/${enc(id)}/delivrance`, { method: "DELETE" }),
+};
+
+// Référentiels (CRUD génériques) : médecins, personnel, pharmacies, maladies, conditions, molécules, laboratoires
+export const referentielsApi = {
+  specs: () => api<RefSpec[]>("/referentiels"),
+  list: (type: string, f: { q?: string; classe?: string } = {}) => api<RefEntity[]>(`/referentiels/${type}${qs(f)}`),
+  get: (type: string, id: string) => api<RefEntity>(`/referentiels/${type}/${enc(id)}`),
+  create: (type: string, d: RefInput) => api<RefEntity>(`/referentiels/${type}`, { method: "POST", body: d }),
+  update: (type: string, id: string, d: RefInput) => api<RefEntity>(`/referentiels/${type}/${enc(id)}`, { method: "PUT", body: d }),
+  remove: (type: string, id: string) => api<void>(`/referentiels/${type}/${enc(id)}`, { method: "DELETE" }),
+};
+
+export const pharmaciesApi = {
+  disponibilite: (medicamentIds: string[]) =>
+    api<PharmacieDispo[]>(`/pharmacies/disponibilite${qs({ medicaments: medicamentIds.join(",") })}`),
 };
 
 // Membre 4 — NLP, IA, ontologie et intégration
 export const nlpApi = {
-  ask: (question: string) => api<NlpResponse>("/nlp/query", { method: "POST", body: { question } }),
   examples: () => api<string[]>("/nlp/exemples"),
+};
+
+// Chat IA : NLP → SPARQL → réponse rédigée par le LLM local (Ollama), reçue au fil de l'eau
+export const chatApi = {
+  statut: () => api<ChatStatus>("/chat/statut"),
+  envoyer: (
+    message: string,
+    historique: { role: "user" | "assistant"; content: string }[],
+    contexte: unknown,
+    onEvent: (e: ChatEvent) => void,
+    signal?: AbortSignal,
+  ) => streamNdjson<ChatEvent>("/chat", { message, historique, contexte }, onEvent, signal),
+  synthesePatient: (id: string, onEvent: (e: ChatEvent) => void, signal?: AbortSignal) =>
+    streamNdjson<ChatEvent>(`/chat/synthese/patients/${enc(id)}`, {}, onEvent, signal),
 };
 
 export const iaApi = {

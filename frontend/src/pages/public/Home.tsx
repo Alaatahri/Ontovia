@@ -99,7 +99,7 @@ export function Home() {
                 </div>
                 <div className="ml-auto w-fit rounded-2xl rounded-tr-sm bg-brand-600 px-3.5 py-2 text-[13px] text-white">Quels médicaments traitent la migraine ?</div>
                 <div className="mt-2.5 rounded-2xl rounded-tl-sm border border-slate-200 bg-slate-50 p-3">
-                  <p className="mb-2 text-xs text-slate-500">5 résultats · relation <code className="font-mono text-brand-700">nx:traite</code></p>
+                  <p className="mb-2 text-xs text-slate-500">5 résultats trouvés dans l'ontologie</p>
                   <div className="flex flex-wrap gap-1.5">
                     {["Aspirine", "Doliprane", "Advil", "Imigrane", "Avlocardyl"].map((m) => <span key={m} className="chip chip-brand">{m}</span>)}
                   </div>

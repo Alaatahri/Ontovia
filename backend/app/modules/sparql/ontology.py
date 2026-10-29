@@ -68,7 +68,7 @@ SELECT ?type ?nom ?prenom WHERE {
 """
 
 INDIVIDUAL_CLASSES = ("Medicament", "Molecule", "Maladie", "ConditionPhysiologique", "Patient", "Medecin",
-                      "Laboratoire", "Prescription")
+                      "Laboratoire", "Prescription", "Pharmacie", "Pharmacien", "Infirmier")
 
 
 def _short(node) -> str | None:

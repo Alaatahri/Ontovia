@@ -4,7 +4,7 @@ import { Loader2, Save } from "lucide-react";
 import { medicamentsApi, referencesApi } from "../../../api/services";
 import type { MedicamentInput } from "../../../api/types";
 import { MultiSelect } from "../../../components/MultiSelect";
-import { Card, ErrorBox, Field, Loading, PageHeader } from "../../../components/ui";
+import { Card, ErrorBox, Field, Loading, PageHeader , Sem } from "../../../components/ui";
 import { useAsync } from "../../../hooks/useAsync";
 
 const EMPTY: MedicamentInput = {
@@ -61,8 +61,8 @@ export function MedicamentForm() {
 
   return (
     <>
-      <PageHeader eyebrow="Module 1" title={id ? `Modifier ${form.nom || "le médicament"}` : "Nouveau médicament"}
-        subtitle="L'enregistrement génère une requête SPARQL INSERT DATA (création) ou DELETE/INSERT (modification)." />
+      <PageHeader eyebrow="Catalogue" title={id ? `Modifier ${form.nom || "le médicament"}` : "Nouveau médicament"}
+        subtitle={<Sem>Enregistrement : requête SPARQL INSERT DATA (création) ou DELETE/INSERT (modification).</Sem>} />
       <form onSubmit={submit} className="space-y-6">
         {error && <ErrorBox message={error} />}
         <div className="grid gap-6 lg:grid-cols-2">
@@ -85,17 +85,17 @@ export function MedicamentForm() {
               <Field label="Description"><textarea className="input" rows={3} value={form.description ?? ""} onChange={(e) => set("description", e.target.value)} /></Field>
             </div>
           </Card>
-          <Card title="Molécules (nx:contientMolecule)">
+          <Card title={<>Molécules <Sem>nx:contientMolecule</Sem></>}>
             <MultiSelect options={r.molecules} value={form.moleculeIds} onChange={(v) => set("moleculeIds", v)} />
           </Card>
-          <Card title="Maladies traitées (nx:traite)">
+          <Card title={<>Maladies traitées <Sem>nx:traite</Sem></>}>
             <MultiSelect options={r.maladies} value={form.maladieIds} onChange={(v) => set("maladieIds", v)} />
           </Card>
-          <Card title="Contre-indications (nx:aContreIndication)">
+          <Card title={<>Contre-indications <Sem>nx:aContreIndication</Sem></>}>
             <MultiSelect options={conditions} value={form.contreIndicationIds} onChange={(v) => set("contreIndicationIds", v)}
               groupBy={(o) => (o.type === "Maladie" ? "Maladies" : "Conditions physiologiques")} />
           </Card>
-          <Card title="Interactions (nx:interagitAvec — symétrique)" className="lg:col-span-2">
+          <Card title={<>Interactions <Sem>nx:interagitAvec — symétrique</Sem></>} className="lg:col-span-2">
             <MultiSelect options={r.medicaments.filter((m) => m.id !== id)} value={form.interactionIds} onChange={(v) => set("interactionIds", v)} />
           </Card>
         </div>

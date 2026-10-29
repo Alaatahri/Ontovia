@@ -17,18 +17,22 @@ CONDITIONS = ("Maladie", "ConditionPhysiologique")
 
 # Noms de classes reconnus dans la question (pour « liste des … », « combien de … »)
 CLASS_WORDS = {
-    "Medicament": ["medicament", "medicaments", "medocs", "traitements"],
+    "Medicament": ["medicament", "medicaments", "med", "meds", "medoc", "medocs", "traitements"],
     "Patient": ["patient", "patients", "malades"],
     "Medecin": ["medecin", "medecins", "docteur", "docteurs"],
     "Molecule": ["molecule", "molecules", "principes"],
     "Maladie": ["maladie", "maladies", "pathologies"],
     "Laboratoire": ["laboratoire", "laboratoires", "labos"],
     "Prescription": ["prescription", "prescriptions", "ordonnance", "ordonnances"],
+    "Pharmacie": ["pharmacie", "pharmacies", "officine", "officines"],
+    "Pharmacien": ["pharmacien", "pharmaciens", "pharmacienne"],
+    "Infirmier": ["infirmier", "infirmiers", "infirmiere", "infirmieres"],
 }
 CLASS_STEMS = {stem(w): cls for cls, words in CLASS_WORDS.items() for w in words}
 CLASS_LABELS = {"Medicament": "médicaments", "Patient": "patients", "Medecin": "médecins",
                 "Molecule": "molécules", "Maladie": "maladies", "Laboratoire": "laboratoires",
-                "Prescription": "prescriptions"}
+                "Prescription": "prescriptions", "Pharmacie": "pharmacies", "Pharmacien": "pharmaciens",
+                "Infirmier": "infirmiers"}
 
 
 def node(entity: Entity) -> str:
@@ -261,7 +265,7 @@ ORDER BY DESC(?age)""", f"Patients dont l'âge est {'inférieur' if operator == 
 
 
 def q_liste(c: Context):
-    if c.cls in ("Patient", "Medecin"):
+    if c.cls in ("Patient", "Medecin", "Pharmacien", "Infirmier"):
         return f"""SELECT ?nom WHERE {{
   ?x a nx:{c.cls} ;
      nx:nom ?nomP .
@@ -283,6 +287,65 @@ ORDER BY DESC(?date)""", "Liste des prescriptions."
 ORDER BY ?nom""", f"Liste des {CLASS_LABELS[c.cls]}."
 
 
+def q_pharmacies_medicament(c: Context):
+    return f"""SELECT ?pharmacie ?ville ?horaires WHERE {{
+  ?ph a nx:Pharmacie ;
+      nx:disposeDe {node(c.entity)} ;
+      nx:nom ?pharmacie .
+  OPTIONAL {{ ?ph nx:ville ?ville }}
+  OPTIONAL {{ ?ph nx:horaires ?horaires }}
+}}
+ORDER BY ?ville ?pharmacie""", f"Pharmacies qui disposent de « {c.entity.nom} » (relation nx:disposeDe)."
+
+
+def q_stock_pharmacie(c: Context):
+    return f"""SELECT ?medicament ?dosage WHERE {{
+  {node(c.entity)} nx:disposeDe ?m .
+  ?m nx:nom ?medicament .
+  OPTIONAL {{ ?m nx:dosage ?dosage }}
+}}
+ORDER BY ?medicament""", f"Médicaments en stock à « {c.entity.nom} »."
+
+
+def q_personnel_pharmacie(c: Context):
+    return f"""SELECT ?nom ?fonction ?telephone WHERE {{
+  ?x nx:travailleDans {node(c.entity)} ;
+     a ?classe ;
+     nx:nom ?nomP .
+  FILTER(?classe IN (nx:Pharmacien, nx:Infirmier))
+  OPTIONAL {{ ?x nx:prenom ?prenom }}
+  OPTIONAL {{ ?x nx:telephone ?telephone }}
+  BIND(STRAFTER(STR(?classe), "#") AS ?fonction)
+  BIND(CONCAT(COALESCE(?prenom, ""), " ", ?nomP) AS ?nom)
+}}""", f"Personnel qui travaille à « {c.entity.nom} » (relation nx:travailleDans)."
+
+
+def q_fiche(c: Context):
+    """Toutes les informations connues sur un individu : type, propriétés et relations (sortantes et entrantes)."""
+    return f"""SELECT ?propriete ?valeur WHERE {{
+  {{
+    {node(c.entity)} a ?classe .
+    ?classe rdfs:label ?valeur .
+    BIND("type" AS ?propriete)
+  }} UNION {{
+    {node(c.entity)} ?p ?o .
+    ?p rdfs:label ?propriete .
+    FILTER(?p != rdfs:label && ?p != nx:nom && ?p != nx:prenom)
+    OPTIONAL {{ ?o nx:nom ?oNom }}
+    OPTIONAL {{ ?o nx:prenom ?oPrenom }}
+    BIND(IF(isIRI(?o), CONCAT(COALESCE(CONCAT(?oPrenom, " "), ""), COALESCE(?oNom, STRAFTER(STR(?o), "#"))), STR(?o)) AS ?valeur)
+  }} UNION {{
+    ?s ?p {node(c.entity)} .
+    ?p rdfs:label ?pl .
+    ?s nx:nom ?sNom .
+    OPTIONAL {{ ?s nx:prenom ?sPrenom }}
+    BIND(CONCAT("(relation entrante) ", ?pl) AS ?propriete)
+    BIND(CONCAT(COALESCE(CONCAT(?sPrenom, " "), ""), ?sNom) AS ?valeur)
+  }}
+}}
+ORDER BY ?propriete ?valeur""", f"Fiche de « {c.entity.nom} » : type, propriétés et relations dans l'ontologie."
+
+
 def q_compter(c: Context):
     return f"""SELECT (COUNT(DISTINCT ?x) AS ?nombre) WHERE {{
   ?x a nx:{c.cls} .
@@ -293,7 +356,8 @@ INTENTS: list[Intent] = [
     Intent("traitement_maladie", "Rechercher les traitements d'une maladie",
            {"traite": 3, "traitent": 3, "traiter": 3, "traitement": 3, "traitements": 3, "soigne": 3,
             "soignent": 3, "soigner": 3, "soulage": 3, "soulager": 3, "guerir": 3, "remede": 3, "remedes": 3,
-            "prendre": 2, "contre": 1, "medicament": 1, "medicaments": 1, "efficace": 1, "pour": 0.5},
+            "prendre": 2, "contre": 1, "medicament": 1, "medicaments": 1, "med": 1, "medoc": 1, "efficace": 1,
+            "pour": 0.5},
            q_traitement, "Quels médicaments traitent {x} ?", entity_types=("Maladie",)),
     Intent("contre_indications_medicament", "Contre-indications d'un médicament",
            {"indications": 3, "indication": 3, "indique": 3, "indiquee": 3, "eviter": 2, "deconseille": 2,
@@ -341,10 +405,28 @@ INTENTS: list[Intent] = [
            {"fabrique": 3, "fabriques": 3, "produit": 3, "produits": 3, "laboratoire": 2, "medicaments": 1},
            q_medicaments_laboratoire, "Quels médicaments sont fabriqués par {x} ?",
            entity_types=("Laboratoire",)),
+    Intent("pharmacies_medicament", "Pharmacies qui disposent d'un médicament",
+           {"pharmacie": 3, "pharmacies": 3, "trouver": 3, "acheter": 3, "disponible": 3, "dispo": 2, "stock": 2,
+            "ou": 1, "officine": 3},
+           q_pharmacies_medicament, "Où trouver {x} ?", entity_types=("Medicament",)),
+    Intent("stock_pharmacie", "Stock d'une pharmacie",
+           {"stock": 3, "dispose": 3, "disponibles": 3, "vend": 3, "medicaments": 1, "quels": 0.5},
+           q_stock_pharmacie, "Quels médicaments sont disponibles à {x} ?", entity_types=("Pharmacie",)),
+    Intent("personnel_pharmacie", "Personnel d'une pharmacie",
+           {"travaille": 3, "travaillent": 3, "personnel": 3, "pharmacien": 3, "pharmaciens": 3, "infirmier": 2,
+            "qui": 1, "equipe": 3},
+           q_personnel_pharmacie, "Qui travaille à {x} ?", entity_types=("Pharmacie",)),
     Intent("prescriptions_risque", "Prescriptions à risque",
            {"risque": 3, "risques": 3, "risquee": 3, "risquees": 3, "dangereuse": 3, "dangereuses": 3,
             "alerte": 3, "alertes": 3, "probleme": 2, "problemes": 2},
            q_prescriptions_risque, "Quelles prescriptions présentent un risque ?"),
+    Intent("fiche", "Fiche d'un élément de l'ontologie",
+           {"parle": 3, "parler": 3, "definition": 3, "decris": 3, "decrire": 3, "description": 3, "explique": 3,
+            "expliquer": 3, "informations": 3, "information": 3, "infos": 3, "info": 3, "details": 3, "fiche": 3,
+            "presente": 3, "presenter": 3, "quoi": 2, "est": 0.5},
+           q_fiche, "Parle-moi de {x}",
+           entity_types=("Medicament", "Molecule", "Maladie", "ConditionPhysiologique", "Patient", "Medecin",
+                         "Laboratoire", "Pharmacie", "Pharmacien", "Infirmier")),
     Intent("patients_age", "Patients selon l'âge",
            {"ans": 2, "age": 2, "ages": 2, "agee": 2, "plus": 1, "moins": 1, "jeunes": 1, "vieux": 1},
            q_patients_age, "Quels patients ont plus de 60 ans ?", needs_number=True),
@@ -410,6 +492,8 @@ EXAMPLES = [
     "Quels patients ont plus de 60 ans ?",
     "Qui est allergique à l'amoxicilline ?",
     "Combien de médicaments sont enregistrés ?",
+    "Où trouver le Coumadine ?",
+    "Qui travaille à la pharmacie Ennasr ?",
 ]
 
 

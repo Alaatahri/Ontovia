@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AlertTriangle, ArrowLeft, BrainCircuit, CheckCircle2, FilePlus, Network, Pencil, Trash2, XCircle } from "lucide-react";
+import { AlertTriangle, ArrowLeft, BrainCircuit, CheckCircle2, FilePlus, Network, Pencil, Sparkles, Trash2, XCircle } from "lucide-react";
 import { patientsApi } from "../../../api/services";
 import { ConfirmDialog } from "../../../components/ConfirmDialog";
 import { GraphExplorer } from "../../../components/GraphExplorer";
 import { Avatar, Card, Chips, ErrorBox, Iri, Loading, PageHeader, formatDate } from "../../../components/ui";
 import { useAsync } from "../../../hooks/useAsync";
+import { SynthesePatient } from "./SynthesePatient";
 
 /** IA — recommandations de traitement personnalisées (système à base de connaissances). */
 function Recommandations({ id }: { id: string }) {
@@ -69,9 +70,9 @@ export function PatientDetail() {
       <div className="grid gap-6 xl:grid-cols-3">
         <div className="space-y-6 xl:col-span-2">
           <div className="grid gap-6 md:grid-cols-3">
-            <Card title="Maladies"><p className="mb-2 text-xs text-slate-400">nx:souffreDe</p><Chips items={p.maladies} tone="chip-rose" /></Card>
-            <Card title="Conditions"><p className="mb-2 text-xs text-slate-400">nx:presenteCondition</p><Chips items={p.conditions} tone="chip-amber" /></Card>
-            <Card title="Allergies"><p className="mb-2 text-xs text-slate-400">nx:estAllergiqueA</p><Chips items={p.allergies} tone="chip-indigo" /></Card>
+            <Card title="Maladies"><p className="sem mb-2 text-xs">nx:souffreDe</p><Chips items={p.maladies} tone="chip-rose" /></Card>
+            <Card title="Conditions"><p className="sem mb-2 text-xs">nx:presenteCondition</p><Chips items={p.conditions} tone="chip-amber" /></Card>
+            <Card title="Allergies"><p className="sem mb-2 text-xs">nx:estAllergiqueA</p><Chips items={p.allergies} tone="chip-indigo" /></Card>
           </div>
           <Card title="Prescriptions" bodyClass="">
             {p.prescriptions?.length ? (
@@ -91,13 +92,18 @@ export function PatientDetail() {
               </div>
             ) : <p className="p-5 text-sm text-slate-500">Aucune prescription.</p>}
           </Card>
-          <Card title="Graphe RDF du patient" icon={<Network className="h-4 w-4" />}>
+          <Card title="Graphe de connaissances" icon={<Network className="h-4 w-4" />}>
             <GraphExplorer initialId={p.id} height={400} />
           </Card>
         </div>
-        <Card title="Traitements recommandés (IA)" icon={<BrainCircuit className="h-4 w-4" />} className="xl:self-start">
-          <Recommandations id={p.id} />
-        </Card>
+        <div className="space-y-6 xl:self-start">
+          <Card title="Synthèse du dossier (IA générative locale)" icon={<Sparkles className="h-4 w-4" />}>
+            <SynthesePatient id={p.id} />
+          </Card>
+          <Card title="Traitements recommandés (IA)" icon={<BrainCircuit className="h-4 w-4" />}>
+            <Recommandations id={p.id} />
+          </Card>
+        </div>
       </div>
       {confirm && (
         <ConfirmDialog title={`Supprimer ${p.nomComplet} ?`} message="Toutes les relations du patient seront retirées. Supprimez d'abord ses prescriptions s'il en possède."

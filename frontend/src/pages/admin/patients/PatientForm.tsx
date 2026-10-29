@@ -4,7 +4,7 @@ import { Loader2, Save } from "lucide-react";
 import { patientsApi, referencesApi } from "../../../api/services";
 import type { PatientInput } from "../../../api/types";
 import { MultiSelect } from "../../../components/MultiSelect";
-import { Card, ErrorBox, Field, Loading, PageHeader } from "../../../components/ui";
+import { Card, ErrorBox, Field, Loading, PageHeader , Sem } from "../../../components/ui";
 import { useAsync } from "../../../hooks/useAsync";
 
 const EMPTY: PatientInput = { prenom: "", nom: "", age: 30, sexe: "F", maladieIds: [], conditionIds: [], allergieIds: [] };
@@ -50,7 +50,7 @@ export function PatientForm() {
 
   return (
     <>
-      <PageHeader eyebrow="Module 2" title={id ? `Modifier ${form.prenom} ${form.nom}` : "Nouveau patient"} />
+      <PageHeader eyebrow="Dossiers" title={id ? `Modifier ${form.prenom} ${form.nom}` : "Nouveau patient"} />
       <form onSubmit={submit} className="space-y-6">
         {error && <ErrorBox message={error} />}
         <div className="grid gap-6 lg:grid-cols-2">
@@ -77,13 +77,13 @@ export function PatientForm() {
               </div>
             </div>
           </Card>
-          <Card title="Maladies (nx:souffreDe)">
+          <Card title={<>Maladies <Sem>nx:souffreDe</Sem></>}>
             <MultiSelect options={r.maladies} value={form.maladieIds} onChange={(v) => set("maladieIds", v)} />
           </Card>
-          <Card title="Conditions physiologiques (nx:presenteCondition)">
+          <Card title={<>Conditions physiologiques <Sem>nx:presenteCondition</Sem></>}>
             <MultiSelect options={r.conditions} value={form.conditionIds} onChange={(v) => set("conditionIds", v)} />
           </Card>
-          <Card title="Allergies (nx:estAllergiqueA)">
+          <Card title={<>Allergies <Sem>nx:estAllergiqueA</Sem></>}>
             <MultiSelect options={r.molecules} value={form.allergieIds} onChange={(v) => set("allergieIds", v)} />
           </Card>
         </div>

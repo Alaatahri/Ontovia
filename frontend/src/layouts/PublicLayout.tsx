@@ -1,4 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
+import { ChatWidget } from "../components/chat/ChatWidget";
 import { Loading } from "../components/ui";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { ArrowRight, Github, HeartPulse, Mail, MapPin, Menu, ShieldCheck, X } from "lucide-react";
@@ -8,6 +9,7 @@ const NAV = [
   { to: "/catalogue", label: "Médicaments" },
   { to: "/verificateur", label: "Vérificateur" },
   { to: "/assistant", label: "Assistant IA" },
+  { to: "/pharmacies", label: "Pharmacies" },
   { to: "/a-propos", label: "Le projet" },
 ];
 
@@ -75,6 +77,7 @@ export function PublicLayout() {
         </Suspense>
       </main>
 
+      <ChatWidget fullPage="/assistant" />
       <footer className="bg-ink-900 text-slate-300">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
           <div className="space-y-4">

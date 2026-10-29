@@ -9,7 +9,8 @@ router = APIRouter(prefix="/api", tags=["Références et statistiques"])
 
 REFERENCE_QUERY = """
 SELECT ?s ?nom ?prenom ?extra WHERE {{
-  ?s a nx:{cls} ;
+  {values}
+  ?s a ?cls ;
      nx:nom ?nom .
   OPTIONAL {{ ?s nx:prenom ?prenom }}
   OPTIONAL {{ ?s nx:specialite ?extra }}
@@ -25,12 +26,14 @@ REFERENCE_CLASSES = {
     "medecins": "Medecin",
     "medicaments": "Medicament",
     "patients": "Patient",
+    "pharmacies": "Pharmacie",
+    "personnel": ("Pharmacien", "Infirmier"),
 }
 
 COUNTS_QUERY = """
 SELECT ?classe (COUNT(DISTINCT ?x) AS ?nombre) WHERE {
   VALUES ?classe { nx:Medicament nx:Molecule nx:Maladie nx:ConditionPhysiologique nx:Patient
-                   nx:Medecin nx:Prescription nx:Laboratoire }
+                   nx:Medecin nx:Prescription nx:Laboratoire nx:Pharmacie nx:Pharmacien nx:Infirmier }
   OPTIONAL { ?x a ?classe }
 }
 GROUP BY ?classe
@@ -73,6 +76,16 @@ ORDER BY DESC(?valeur) ?label
 LIMIT 8
 """
 
+PRESCRIPTIONS_PAR_STATUT = """
+SELECT ?label (COUNT(?p) AS ?valeur) WHERE {
+  ?p a nx:Prescription .
+  OPTIONAL { ?p nx:statut ?s }
+  BIND(COALESCE(STR(?s), "En attente") AS ?label)
+}
+GROUP BY ?label
+ORDER BY ?label
+"""
+
 TRANCHES_AGE = """
 SELECT ?label (COUNT(?p) AS ?valeur) WHERE {
   ?p a nx:Patient ; nx:age ?age .
@@ -83,9 +96,12 @@ ORDER BY ?label
 """
 
 
-def _reference_list(cls: str) -> list[dict]:
+def _reference_list(cls: str | tuple[str, ...]) -> list[dict]:
+    from app.core.rdf import NX, values_block
+
+    classes = (cls,) if isinstance(cls, str) else cls
     items = []
-    for row in store.select(REFERENCE_QUERY.format(cls=cls)):
+    for row in store.select(REFERENCE_QUERY.format(values=values_block("cls", [NX[c] for c in classes]))):
         prenom = to_python(row.get("prenom"))
         item = ref(row["s"], row["nom"])
         if prenom:
@@ -133,6 +149,7 @@ def _stats():
             "prescriptionsParMois": _series(PRESCRIPTIONS_PAR_MOIS),
             "medicamentsLesPlusPrescrits": _series(MEDICAMENTS_LES_PLUS_PRESCRITS),
             "tranchesAge": _series(TRANCHES_AGE),
+            "prescriptionsParStatut": _series(PRESCRIPTIONS_PAR_STATUT),
             "risquesParType": [{"label": k, "valeur": v} for k, v in sorted(risques_par_type.items())],
         },
     }
